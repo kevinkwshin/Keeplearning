@@ -21,3 +21,8 @@ def z_normalization(img, num_channels):
         img[..., i] -= np.mean(img[..., i])
         img[..., i] /= np.std(img[..., i])
     return img
+
+def sample_z_norm(data, mean=0.174634420286961, sd=0.11619528340846214):
+    data -= mean
+    data /= sd
+    return data
