@@ -1,2 +1,0 @@
-# multi-dimensional median filter
-scipy.ndimage.filters.median_filter
