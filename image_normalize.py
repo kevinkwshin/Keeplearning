@@ -26,3 +26,17 @@ def sample_z_norm(data, mean=0.174634420286961, sd=0.11619528340846214):
     data -= mean
     data /= sd
     return data
+
+def preprocess_img(img):
+# For CT
+#     img[img < -1024] = -1024.
+#     img[img >= 3071] = 3071.
+#     img += 1024.
+#     img /= (2**12-1)
+    
+    b = np.percentile(img, 99)
+    t = np.percentile(img, 1)
+    img = np.clip(img, t, b)
+    img= (img - b) / (t-b)
+    img= 1-img
+    return img
