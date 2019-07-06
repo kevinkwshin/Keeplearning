@@ -10,7 +10,7 @@ def load_dicom(path):
     image = sitk.GetArrayFromImage(image)
     return image
     
-def aview_img_to_nii(path_file,path_save):
+def aview_img_to_nii(path_file,path_save):  # Aview label to nifti label
     label = nib.load(path_file).get_data().astype('float32')
     label = np.squeeze(label)
     label = np.fliplr(label)
