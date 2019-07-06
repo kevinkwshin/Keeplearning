@@ -1,3 +1,6 @@
+import SimpleITK as sitk
+import nibabel as nib
+
 def load_nii(path)    
     image = sitk.GetArrayFromImage(sitk.ReadImage(x_list)).astype('float32')
     return image
@@ -18,6 +21,5 @@ def convert_aview_img_to_nii(path_file,path_save):  # Aview label to nifti label
     nib.save(label,path_save)
 
 def convert_dicom_to_nii(path_file,path_save):
-    
     
 def convert_dicom_to_png(path_file,path_save):
