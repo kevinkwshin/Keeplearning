@@ -40,3 +40,10 @@ def preprocess_img(img):
     img= (img - b) / (t-b)
     img= 1-img
     return img
+
+def preprocess_CT_256(img):
+    img[img < -1024] = -1024.
+    img[img >= 3071] = 3071.
+    img += 1024.
+    img /= (2**12-1)
+    return img
