@@ -1,5 +1,8 @@
 # 3D Augmentation using SimpleITK
 
+import SimpleITK as sitk
+import numpy as np
+
 #############################################################################################################################
 # BSpline Transform
 def bspline_tranform_parameter(sitk_image, MeshSize=6, scale_distortion=4):
