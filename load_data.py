@@ -1,7 +1,7 @@
 import SimpleITK as sitk
 import nibabel as nib
 
-def load_nii(path,return_array=True)
+def load_nii(path,return_array=True):
     image = sitk.ReadImage(path)
     if return_array == True:
         image = sitk.GetArrayFromImage(image).astype('float32')
