@@ -5,7 +5,7 @@ import numpy as np
 
 #############################################################################################################################
 # BSpline Transform
-def bspline_tranform_parameter(sitk_image, MeshSize=6, scale_distortion=4):
+def augmentation_bspline_tranform_parameter(sitk_image, MeshSize=6, scale_distortion=4):
     
     transformDomainMeshSize=[MeshSize]*3
     tx = sitk.BSplineTransformInitializer(sitk_image, transformDomainMeshSize)
@@ -18,7 +18,7 @@ def bspline_tranform_parameter(sitk_image, MeshSize=6, scale_distortion=4):
 
     return tx
 
-def bspline_tranform(sitk_input,tx,interpolator=sitk.sitkBSpline):
+def augmentation_bspline_tranform(sitk_input,tx,interpolator=sitk.sitkBSpline):
     
     resampler = sitk.ResampleImageFilter()
     resampler.SetReferenceImage(sitk_input)
@@ -41,7 +41,7 @@ def bspline_tranform(sitk_input,tx,interpolator=sitk.sitkBSpline):
 
 #############################################################################################################################
 # Affine Transform
-def affine_transform_parameter(translation_3d,size_scale,matrix_scale):
+def augmentation_affine_transform_parameter(translation_3d,size_scale,matrix_scale):
     affine_center = (0,0,0)
     affine_translation = (translation_3d[0]*np.random.random(),
                           translation_3d[1]*np.random.random(),
@@ -50,7 +50,7 @@ def affine_transform_parameter(translation_3d,size_scale,matrix_scale):
     affine_matrix = [1,0,0,0,1,0,0,0,1] - np.random.random(9)*matrix_scale
     return affine_matrix,affine_translation,affine_center,affine_scale
 
-def affine_transform(sitk_input,interpolator):
+def augmentation_affine_transform(sitk_input,interpolator):
     transform = sitk.AffineTransform(affine_matrix, affine_translation, affine_center)
     transform.Scale(affine_scale)
 
