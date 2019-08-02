@@ -74,3 +74,11 @@ def image_windowing(img, ww=1800, wl=400):
     img = np.where((img >= a) & (img <= b),np.round(slope*img + intercept), img)
 
     return img
+
+def image_save_nii(data,path):
+    # input shape  : (data)
+    # output shape : (data)
+    
+    data_nii = np.transpose(data)
+    output = nib.Nifti1Image(data_nii, affine=np.eye(4))
+    nib.save(output, os.path.join(path))
