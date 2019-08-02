@@ -1,4 +1,4 @@
-def _normalize(self,slice):
+def image_normalize(self,slice):
      '''
          input: unnormalized slice 
          OUTPUT: normalized clipped slice
@@ -27,7 +27,7 @@ def sample_z_norm(data, mean=0.174634420286961, sd=0.11619528340846214):
     data /= sd
     return data
 
-def preprocess_img(img):
+def image_preprocess_float(img):
 # For CT
 #     img[img < -1024] = -1024.
 #     img[img >= 3071] = 3071.
@@ -41,14 +41,14 @@ def preprocess_img(img):
     img= 1-img
     return img
 
-def preprocess_CT_256(img):
+def image_preprocess_CT_uint8(img):
     img[img < -1024] = -1024.
     img[img >= 3071] = 3071.
     img += 1024.
     img /= (2**12-1)
     return img
 
-def resize(data, img_dep=200., img_rows=200., img_cols=200.): # 3D image
+def image_resize(data, img_dep=200., img_rows=200., img_cols=200.): # 3D image
     resize_factor = (img_dep/data.shape[0], img_rows/data.shape[1], img_cols/data.shape[2])
     data = ndimage.zoom(data, resize_factor, order=0, mode='constant', cval=0.0)
     return data
