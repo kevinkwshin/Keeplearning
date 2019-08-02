@@ -1,3 +1,4 @@
+import numpy as np
 def image_normalize(self,slice):
      '''
          input: unnormalized slice 
