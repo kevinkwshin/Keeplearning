@@ -18,7 +18,7 @@ def bspline_tranform_parameter(sitk_image, MeshSize=6, scale_distortion=4):
 
     return tx
 
-def bspline_tranform(sitk_input,tx,interpolator):
+def bspline_tranform(sitk_input,tx,interpolator=sitk.sitkBSpline):
     
     resampler = sitk.ResampleImageFilter()
     resampler.SetReferenceImage(sitk_input)
