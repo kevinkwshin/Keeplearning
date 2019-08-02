@@ -83,4 +83,4 @@ def image_save_nii(data,path):
     
     data_nii = np.transpose(data)
     output = nib.Nifti1Image(data_nii, affine=np.eye(4))
-    nib.save(output, os.path.join(path))
+    nib.save(output, path)
