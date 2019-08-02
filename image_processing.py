@@ -1,4 +1,6 @@
 import numpy as np
+import SimpleITK as sitk
+import nibabel as nib
 from scipy import ndimage
 
 def image_normalize(self,slice):
