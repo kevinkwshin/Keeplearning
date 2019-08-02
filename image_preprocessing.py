@@ -53,3 +53,21 @@ def image_resize(data, img_dep=200., img_rows=200., img_cols=200.): # 3D image
     resize_factor = (img_dep/data.shape[0], img_rows/data.shape[1], img_cols/data.shape[2])
     data = ndimage.zoom(data, resize_factor, order=0, mode='constant', cval=0.0)
     return data
+
+def image_windowing(img, ww=1800, wl=400):
+    # preprocessing for CT image (medical)
+    # img shape [width, height, depth]
+    # ww & wl: bone preset
+    maxp = np.max(img)
+    minp = np.min(img)
+
+    a = wl - (ww/2)
+    b = wl + (ww/2)
+    slope = (maxp - minp)/ww
+    intercept = maxp - (slope*b)
+
+    img[img < a] = minp
+    img[img > b] = maxp
+    img = np.where((img >= a) & (img <= b),np.round(slope*img + intercept), img)
+
+    return img
