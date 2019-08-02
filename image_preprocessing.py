@@ -1,5 +1,5 @@
 import numpy as np
-import scipy.ndimage
+from scipy import ndimage
 
 def image_normalize(self,slice):
      '''
