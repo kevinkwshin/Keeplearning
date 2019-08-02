@@ -31,12 +31,13 @@ def bspline_tranform(sitk_input,tx,interpolator=sitk.sitkBSpline):
     
     return aug_input
 
-image = sitk.ReadImage(path_image)
-tx = bspline_tranform_parameter(image)
-aug_image = bspline_tranform(image,tx,sitk.sitkBSpline)
-aug_image = sitk.GetArrayFromImage(aug_image)
-aug_mask = bspline_tranform(mask,tx,sitk.sitkNearestNeighbor)
-aug_mask = sitk.GetArrayFromImage(aug_mask)
+# Usage
+# image = sitk.ReadImage(path_image)
+# tx = bspline_tranform_parameter(image)
+# aug_image = bspline_tranform(image,tx,sitk.sitkBSpline)
+# aug_image = sitk.GetArrayFromImage(aug_image)
+# aug_mask = bspline_tranform(mask,tx,sitk.sitkNearestNeighbor)
+# aug_mask = sitk.GetArrayFromImage(aug_mask)
 
 #############################################################################################################################
 # Affine Transform
@@ -58,7 +59,8 @@ def affine_transform(sitk_input,interpolator):
     
     return aug_input
 
-affine_matrix,affine_translation,affine_center,affine_scale= affine_transform_parameter((0,10,10),0.05,0.05)
 
-aug_image = affine_transform(image,sitk.sitkBSpline)
-aug_mask  = affine_transform(mask,sitk.sitkNearestNeighbor)
+# Usage
+# affine_matrix,affine_translation,affine_center,affine_scale= affine_transform_parameter((0,10,10),0.05,0.05)
+# aug_image = affine_transform(image,sitk.sitkBSpline)
+# aug_mask  = affine_transform(mask,sitk.sitkNearestNeighbor)
