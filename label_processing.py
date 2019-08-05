@@ -122,7 +122,7 @@ def label_onehot_decode(label_onehot):
 
     # numpy
     
-    label = numpy.zeros((label_onehot.shape[1],label_onehot.shape[2],label_onehot.shape[3]))
+    label = np.zeros((label_onehot.shape[1],label_onehot.shape[2],label_onehot.shape[3]))
     for idx in range(len(label_onehot)):
         label_temp = label_onehot[idx]
         label_temp[label_temp!=idx+1.]=0.
