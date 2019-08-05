@@ -99,6 +99,18 @@ def label_onehot_encode(label,num_class):
             label_onehot[idx] = label_temp
     return label_onehot
 
+# def label_onehot_decode(label_onehot):
+#     #input shape (values 0,1) : (channel,image_depth,image_height,image_width)
+#     #output shape (value  0,1,2,...)  : (image_depth,image_height,image_width)
+
+#     # torch
+# #     label_onehot = label_onehot.squeeze()
+# #     value, indices = torch.max(label_onehot,0).astype('float32')
+
+#     # numpy
+#     indices = np.argmax(label_onehot,0).astype('float32') # 0 for channel
+
+#     return indices
 
 def label_onehot_decode(label_onehot):
     #input shape (values 0,1) : (channel,image_depth,image_height,image_width)
@@ -109,7 +121,13 @@ def label_onehot_decode(label_onehot):
 #     value, indices = torch.max(label_onehot,0).astype('float32')
 
     # numpy
-    label_onehot = label_onehot#.squeeze().cpu().detach().numpy()
-    indices = np.argmax(label_onehot,0).astype('float32')
+    
+    label = torch.zeros((label_onehot.shape[1],label_onehot.shape[2],label_onehot.shape[3]))
+    for idx in range(len(label_onehot)):
+        label_temp = label_onehot[idx]
+        label_temp[label_temp!=idx+1.]=0.
+        label_temp[label_temp==idx+1.]=1.
+        label += label_temp
+    label = np.argmax(label_onehot,0).astype('float32') # 0 for channel
 
-    return indices#.squeeze()
+    return indices
