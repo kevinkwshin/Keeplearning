@@ -122,12 +122,12 @@ def label_onehot_decode(label_onehot):
 
     # numpy
     
-    label = torch.zeros((label_onehot.shape[1],label_onehot.shape[2],label_onehot.shape[3]))
+    label = numpy.zeros((label_onehot.shape[1],label_onehot.shape[2],label_onehot.shape[3]))
     for idx in range(len(label_onehot)):
         label_temp = label_onehot[idx]
         label_temp[label_temp!=idx+1.]=0.
         label_temp[label_temp==idx+1.]=1.
         label += label_temp
-    label = np.argmax(label_onehot,0).astype('float32') # 0 for channel
+#     label = np.argmax(label_onehot,0).astype('float32') # 0 for channel
 
     return indices
