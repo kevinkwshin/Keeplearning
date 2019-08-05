@@ -130,4 +130,4 @@ def label_onehot_decode(label_onehot):
         label += label_temp
 #     label = np.argmax(label_onehot,0).astype('float32') # 0 for channel
 
-    return indices
+    return label
