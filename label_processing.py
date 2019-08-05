@@ -1,3 +1,6 @@
+import torch
+import numpy as np
+
 def label_binary_dilation(x, radius=3): # 확장
     """ Return fast binary morphological dilation of an image.
     see `skimage.morphology.binary_dilation <http://scikit-image.org/docs/dev/api/skimage.morphology.html#skimage.morphology.binary_dilation>`_.
