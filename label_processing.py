@@ -109,7 +109,7 @@ def label_onehot_decode(label_onehot):
 #     value, indices = torch.max(label_onehot,0).astype('float32')
 
     # numpy
-    label_onehot = label_onehot.squeeze().cpu().detach().numpy()
+    label_onehot = label_onehot#.squeeze().cpu().detach().numpy()
     indices = np.argmax(label_onehot,0).astype('float32')
 
     return indices#.squeeze()
