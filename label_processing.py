@@ -96,14 +96,13 @@ def label_onehot_encode(label,num_class):
         for idx in range(num_class):
             if idx ==0:
                 #background
-                label_ = label.clone()
-                label_[label_!=0]=2
-                label_[label_==0]=1
-                label_[label_!=0]=0
+                label_temp = label.clone()
+                label_temp[label_temp!=0]=2
+                label_temp[label_temp==0]=1
+                label_temp[label_temp!=0]=0
                 label_onehot[idx] = label_temp
             else:
-                label_ = label.clone()
-                label_temp = label_
+                label_temp = label.clone()
                 label_temp[label_temp!=idx+1.]=0.
                 label_temp[label_temp!=0.]=1.
                 label_onehot[idx] = label_temp
