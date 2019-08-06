@@ -5,7 +5,7 @@ import numpy as np
 
 #############################################################################################################################
 # BSpline Transform
-def augmentation_bspline_tranform_parameter(sitk_image, MeshSize=6, scale_distortion=4):
+def augmentation_bspline_tranform_parameter(sitk_image, MeshSize=6, scale_distortion=1):
     
     transformDomainMeshSize=[MeshSize]*3
     tx = sitk.BSplineTransformInitializer(sitk_image, transformDomainMeshSize)
