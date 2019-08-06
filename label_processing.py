@@ -94,20 +94,21 @@ def label_onehot_encode(label,num_class):
     else:
         label_onehot = torch.zeros((num_class,label.shape[0],label.shape[1],label.shape[2]))
         for idx in range(num_class):
-            print(idx)
             if idx ==0:
                 #background
                 label_temp = label.clone()
                 label_temp[label_temp!=0]=100.
                 label_temp[label_temp==0]=1
-                label_temp[label_temp!=100.]=0
+                label_temp[label_temp==100.]=0
                 label_onehot[idx] = label_temp
             else:
                 label_temp = label.clone()
                 label_temp[label_temp!=idx]=0.
                 label_temp[label_temp!=0.]=1.
                 label_onehot[idx] = label_temp
+    print(torch.unique(label_onehot))
     return label_onehot
+
 
 def label_onehot_decode(label_onehot):
     #input shape (values 0,1) : (channel,image_depth,image_height,image_width)
