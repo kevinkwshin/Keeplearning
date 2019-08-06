@@ -84,7 +84,9 @@ def label_voxel_remover(results):
 def label_onehot_encode(label,num_class):
     
     #input shape  (value  0,1,2,...)   : (image_depth,image_height,image_width)
-    #output shape (values 0,1) : (channel,image_depth,image_height,image_width)
+    #output shape (values 0,1) : (num_class+1,image_depth,image_height,image_width)
+    #background is 0, so channel should be num_class+1
+    num_class += 1
     
     dimension = len(label.shape)
     if dimension != 3:
@@ -92,25 +94,20 @@ def label_onehot_encode(label,num_class):
     else:
         label_onehot = torch.zeros((num_class,label.shape[0],label.shape[1],label.shape[2]))
         for idx in range(num_class):
-            label_ = label.clone()
-            label_temp = label_
-            label_temp[label_temp!=idx+1.]=0.
-            label_temp[label_temp!=0.]=1.
-            label_onehot[idx] = label_temp
+            if idx ==0:
+                #background
+                label_ = label.clone()
+                label_[label_!=0]=2
+                label_[label_==0]=1
+                label_[label_!=0]=0
+                label_onehot[idx] = label_temp
+            else:
+                label_ = label.clone()
+                label_temp = label_
+                label_temp[label_temp!=idx+1.]=0.
+                label_temp[label_temp!=0.]=1.
+                label_onehot[idx] = label_temp
     return label_onehot
-
-# def label_onehot_decode(label_onehot):
-#     #input shape (values 0,1) : (channel,image_depth,image_height,image_width)
-#     #output shape (value  0,1,2,...)  : (image_depth,image_height,image_width)
-
-#     # torch
-# #     label_onehot = label_onehot.squeeze()
-# #     value, indices = torch.max(label_onehot,0).astype('float32')
-
-#     # numpy
-#     indices = np.argmax(label_onehot,0).astype('float32') # 0 for channel
-
-#     return indices
 
 def label_onehot_decode(label_onehot):
     #input shape (values 0,1) : (channel,image_depth,image_height,image_width)
@@ -121,6 +118,22 @@ def label_onehot_decode(label_onehot):
 #     value, indices = torch.max(label_onehot,0).astype('float32')
 
     # numpy
+    indices = np.argmax(label_onehot,0).astype('float32') # 0 for channel
+    
+    return indices
+
+def label_onehot_decode(label_onehot):
+    #input shape (values 0,1) : (channel,image_depth,image_height,image_width)
+    #output shape (value  0,1,2,...)  : (image_depth,image_height,image_width)
+
+    # torch
+#     label_onehot = label_onehot.squeeze()
+#     value, indices = torch.max(label_onehot,0).astype('float32')
+
+    # numpy
+    
+    label_onehot[label_onehot>=0.5]=1.
+    label_onehot[label_onehot<0.5]=0.
     
     label = np.zeros((label_onehot.shape[1],label_onehot.shape[2],label_onehot.shape[3]))
     for idx in range(len(label_onehot)):
