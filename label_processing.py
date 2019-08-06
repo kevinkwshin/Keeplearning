@@ -111,7 +111,6 @@ def label_onehot_encode(label,num_class):
 #     indices = np.argmax(label_onehot,0).astype('float32') # 0 for channel
 
 #     return indices
-
 def label_onehot_decode(label_onehot):
     #input shape (values 0,1) : (channel,image_depth,image_height,image_width)
     #output shape (value  0,1,2,...)  : (image_depth,image_height,image_width)
@@ -124,10 +123,11 @@ def label_onehot_decode(label_onehot):
     
     label = np.zeros((label_onehot.shape[1],label_onehot.shape[2],label_onehot.shape[3]))
     for idx in range(len(label_onehot)):
+        print(idx)
         label_temp = label_onehot[idx]
-        label_temp[label_temp!=idx+1.]=0.
-        label_temp[label_temp==idx+1.]=1.
+        label_temp[label_temp!=1.]=0.
+        label_temp[label_temp==1.]=idx
         label += label_temp
-#     label = np.argmax(label_onehot,0).astype('float32') # 0 for channel
 
     return label
+
