@@ -106,7 +106,6 @@ def label_onehot_encode(label,num_class):
                 label_temp[label_temp!=idx]=0.
                 label_temp[label_temp!=0.]=1.
                 label_onehot[idx] = label_temp
-    print(torch.unique(label_onehot))
     return label_onehot
 
 
