@@ -1,6 +1,5 @@
 import torch
 import numpy as np
-from image_processing import *
 
 def label_binary_dilation(x, radius=3): # 확장
     """ Return fast binary morphological dilation of an image.
@@ -60,8 +59,8 @@ def label_crop_curriculum(image,mask,crop_shape):
         image_ = image[depth_min:depth_max,height_min:height_max,width_min:width_max]
         mask_ = mask[depth_min:depth_max,height_min:height_max,width_min:width_max]
 #         print(height_min,height_max,width_min,width_max)
-    image_ = image_resize(image_,D,H,W,'constant')
-    mask_ = image_resize(label_,D,H,W,'nearest')
+#     image_ = image_resize(image_,D,H,W,'constant')
+#     mask_ = image_resize(label_,D,H,W,'nearest')
     
     return image_,mask_
 
