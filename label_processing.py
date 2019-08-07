@@ -1,5 +1,6 @@
 import torch
 import numpy as np
+from image_processing import *
 
 def label_binary_dilation(x, radius=3): # 확장
     """ Return fast binary morphological dilation of an image.
