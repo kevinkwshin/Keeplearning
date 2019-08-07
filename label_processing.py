@@ -45,17 +45,22 @@ def label_crop_curriculum(image,mask,crop_shape):
     image_ = image.copy()
     mask_ = mask.copy()
     mask_[mask_!=0]=0
-    original_shape = image.shape
-    
-    D,H,W = crop_shape
+#     original_shape = image.shape
+#     D,H,W = crop_shape
+    orig_D, orig_H, orig_W = image.shape
+    crop_D, crop_H, crop_W = crop_shape
     
     while np.any(mask_)==False:
-        depth_min =int(np.random.rand() * original_shape[0]/2)
-        height_min =int(np.random.rand() * original_shape[1]/2)
-        width_min = int(np.random.rand() * original_shape[2]/2)
-        depth_max = depth_min + D#crop_shape[0]
-        height_max =  height_min + H#crop_shape[1]
-        width_max = width_min + W#crop_shape[2]
+        depth_min =int(np.random.rand() * orig_D/2)
+        height_min =int(np.random.rand() * orig_H/2)
+        width_min = int(np.random.rand() * orig_W/2)
+        depth_max = depth_min + crop_D#crop_shape[0]
+        height_max =  height_min + crop_H#crop_shape[1]
+        width_max = width_min + crop_W#crop_shape[2]
+        
+        if depth_max > orig_D:
+            depth_min -= (depth_max - orig_D)
+            depth_max = orig_D
         image_ = image[depth_min:depth_max,height_min:height_max,width_min:width_max]
         mask_ = mask[depth_min:depth_max,height_min:height_max,width_min:width_max]
 #         print(height_min,height_max,width_min,width_max)
