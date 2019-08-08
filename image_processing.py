@@ -84,3 +84,19 @@ def image_save_nii(data,path):
     data_nii = np.transpose(data)
     output = nib.Nifti1Image(data_nii, affine=np.eye(4))
     nib.save(output, path)
+
+from skimage.transform import resize
+def image_resample_array(src_imgs, src_spacing, target_spacing):
+
+    src_spacing = np.round(src_spacing, 3)
+    target_shape = [int(src_imgs.shape[ix] * src_spacing[::-1][ix] / target_spacing[::-1][ix]) for ix in range(len(src_imgs.shape))]
+    for i in range(len(target_shape)):
+        try:
+            assert target_shape[i] > 0
+        except:
+            raise AssertionError("AssertionError:", src_imgs.shape, src_spacing, target_spacing)
+
+    img = src_imgs.astype(float)
+    resampled_img = resize(img, target_shape, order=1, clip=True, mode='edge').astype('float32')
+
+    return resampled_img
