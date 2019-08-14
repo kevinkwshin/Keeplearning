@@ -91,12 +91,12 @@ def label_voxel_remover(results):
             results_processed[i,:,:,:,j][results_processed[i,:,:,:,j]!= 0] = 1 # added
     return results_processed
 
+
 def label_onehot_encode(label,num_class):
     
     #input shape  (value  0,1,2,...)   : (image_depth,image_height,image_width)
     #output shape (values 0,1) : (num_class+1,image_depth,image_height,image_width)
     #background is 0, so channel should be num_class+1
-    num_class += 1
     
     dimension = len(label.shape)
     if dimension != 3:
@@ -104,19 +104,38 @@ def label_onehot_encode(label,num_class):
     else:
         label_onehot = torch.zeros((num_class,label.shape[0],label.shape[1],label.shape[2]))
         for idx in range(num_class):
-            if idx ==0:
-                #background
-                label_temp = label.clone()
-                label_temp[label_temp!=0]=100.
-                label_temp[label_temp==0]=1
-                label_temp[label_temp==100.]=0
-                label_onehot[idx] = label_temp
-            else:
-                label_temp = label.clone()
-                label_temp[label_temp!=idx]=0.
-                label_temp[label_temp!=0.]=1.
-                label_onehot[idx] = label_temp
+            label_temp = label.clone()
+            label_temp[label_temp!=idx]=0.
+            label_temp[label_temp!=0.]=1.
+            label_onehot[idx] = label_temp
     return label_onehot
+
+# def label_onehot_encode(label,num_class):
+    
+#     #input shape  (value  0,1,2,...)   : (image_depth,image_height,image_width)
+#     #output shape (values 0,1) : (num_class+1,image_depth,image_height,image_width)
+#     #background is 0, so channel should be num_class+1
+#     num_class += 1
+    
+#     dimension = len(label.shape)
+#     if dimension != 3:
+#         print('error')
+#     else:
+#         label_onehot = torch.zeros((num_class,label.shape[0],label.shape[1],label.shape[2]))
+#         for idx in range(num_class):
+#             if idx ==0:
+#                 #background
+#                 label_temp = label.clone()
+#                 label_temp[label_temp!=0]=100.
+#                 label_temp[label_temp==0]=1
+#                 label_temp[label_temp==100.]=0
+#                 label_onehot[idx] = label_temp
+#             else:
+#                 label_temp = label.clone()
+#                 label_temp[label_temp!=idx]=0.
+#                 label_temp[label_temp!=0.]=1.
+#                 label_onehot[idx] = label_temp
+#     return label_onehot
 
 
 def label_onehot_decode(label_onehot):
