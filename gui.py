@@ -8,17 +8,18 @@ import matplotlib.patches as patches
 
 def image_display(images, images_title_list, fig_size,wl_list=None):
     """
-    images : numpy images [image1,image2,...]
-    images_title_list : string ['image1','image2',...]
-    fig_size : same as matplotlib.pyplot.figure(fig_size())
-    wl_list : TODO... window_level_adjust
+    Display 2D or 3D images, However image dimension should be same! 
+    Input Parameter
+    - images : numpy images [image1,image2,...]
+    - images_title_list : string ['image1','image2',...]
+    - fig_size : same as matplotlib.pyplot.figure(fig_size())
+    - wl_list : TODO... window_level_adjust
     """
     for idx in range(len(images)):
         image_ = images[idx]
         image_ = sitk.GetImageFromArray(image_)
         images[idx] = image_
         
-#     print(len(images),images[0].GetDimension())
     if images[0].GetDimension()==2:
         multi_image_display2D(image_list=images, figure_size=fig_size, window_level_list=wl_list)
     else:
