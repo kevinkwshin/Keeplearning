@@ -6,9 +6,9 @@ import numpy as np
 from matplotlib.widgets import  RectangleSelector
 import matplotlib.patches as patches
 
-def image3D_display(images, images_title_list, fig_size=(8,4) ,wl_list=None):
+def image_3D_Display(images, images_title_list, fig_size=(8,4) ,wl_list=None):
     """
-    Display batched or 3D images, However image dimension should be same!
+    Interactive display single channel 3D or batched image like CT and MRI!
     If it does not work, please launch "%matplotlib notebook" first!
     
     Input Parameter
