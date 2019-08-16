@@ -22,7 +22,7 @@ def image3D_display(images, images_title_list, fig_size,wl_list=None):
         image_ = sitk.GetImageFromArray(image_)
         images[idx] = image_
         
-    if images[0].squeeze().GetDimension()==2:
+    if images[0].GetDimension()==2:
         multi_image_display2D(image_list=images, figure_size=fig_size, window_level_list=wl_list)
     else:
         MultiImageDisplay(image_list=images, title_list=images_title_list, figure_size=fig_size, window_level_list=wl_list,shared_slider=True)
