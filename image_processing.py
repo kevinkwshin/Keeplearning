@@ -4,10 +4,10 @@ import nibabel as nib
 from scipy import ndimage
 
 def image_normalize(self,slice):
-     '''
+     """
          input: unnormalized slice 
          OUTPUT: normalized clipped slice
-     '''
+     """
      b = np.percentile(slice, 99)
      t = np.percentile(slice, 1)
      slice = np.clip(slice, t, b)
@@ -22,6 +22,9 @@ def image_normalize(self,slice):
          return tmp
 
 def z_normalization(img, num_channels):
+     """
+     z_normalization
+     """
     for i in range(num_channels):
         img[..., i] -= np.mean(img[..., i])
         img[..., i] /= np.std(img[..., i])
@@ -33,6 +36,9 @@ def sample_z_norm(data, mean=0.174634420286961, sd=0.11619528340846214):
     return data
 
 def image_preprocess_float(img):
+     """
+     Convert image array into 0~1 float
+     """
 # For CT
 #     img[img < -1024] = -1024.
 #     img[img >= 3071] = 3071.
@@ -47,6 +53,9 @@ def image_preprocess_float(img):
     return img
 
 def image_preprocess_CT_uint8(img):
+     """
+     Convert CT image array in HU into 0~255 uint
+     """
     img[img < -1024] = -1024.
     img[img >= 3071] = 3071.
     img += 1024.
@@ -54,15 +63,20 @@ def image_preprocess_CT_uint8(img):
     return img
 
 def image_resize(data, img_dep=200., img_rows=200., img_cols=200.,mode='constant'): # 3D image
-    # mode : 'constant’ for image, ‘nearest' for mask
+    """
+    mode : 'constant’ for image, ‘nearest' for mask
+    """
     resize_factor = (img_dep/data.shape[0], img_rows/data.shape[1], img_cols/data.shape[2])
     data = ndimage.zoom(data, resize_factor, order=0, mode=mode, cval=0.0)
     return data
 
 def image_windowing(img, ww=1800, wl=400):
-    # preprocessing for CT image (medical)
-    # img shape [width, height, depth]
-    # ww & wl: bone preset
+    """
+    preprocessing for CT image (medical)
+    Parameters
+    - img shape [width, height, depth]
+    - ww & wl: bone preset
+    """
     maxp = np.max(img)
     minp = np.min(img)
 
@@ -78,9 +92,10 @@ def image_windowing(img, ww=1800, wl=400):
     return img
 
 def image_save_nii(data,path):
-    # input shape  : (data)
+    """
+    # inpt shape  : (data)
     # output shape : (data)
-    
+    """
     data_nii = np.transpose(data)
     output = nib.Nifti1Image(data_nii, affine=np.eye(4))
     nib.save(output, path)
@@ -121,7 +136,10 @@ def label_binary_dilation(x, radius=3): # 확장
 # multi-dimensional median filter # 레이블 스무딩
 # label = scipy.ndimage.filters.median_filter(label,size=5)
 
-def label_threshold(data,threshold):
+def label_threshold(data,threshold=0.5):
+    """
+    threholds
+    """
     data[data<=threshold]=0
     data[data>threshold] =1
     return data
