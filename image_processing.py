@@ -36,15 +36,9 @@ def sample_z_norm(data, mean=0.174634420286961, sd=0.11619528340846214):
     return data
 
 def image_preprocess_float(img):
-     """
-     Convert image array into 0~1 float
-     """
-# For CT
-#     img[img < -1024] = -1024.
-#     img[img >= 3071] = 3071.
-#     img += 1024.
-#     img /= (2**12-1)
-    
+    """
+    Convert image array into 0~1 float
+    """
     b = np.percentile(img, 99)
     t = np.percentile(img, 1)
     img = np.clip(img, t, b)
@@ -53,9 +47,9 @@ def image_preprocess_float(img):
     return img
 
 def image_preprocess_CT_uint8(img):
-     """
-     Convert CT image array in HU into 0~255 uint
-     """
+    """
+    Convert CT image array in HU into 0~255 uint
+    """
     img[img < -1024] = -1024.
     img[img >= 3071] = 3071.
     img += 1024.
