@@ -291,3 +291,16 @@ def label_onehot_decode(label_onehot):
 #     print(np.unique(label))
 #     return label
 
+
+def label_RemoveNonLabeledSlice(image,label,reference_label):
+    """
+    input : squential image & label (depth,height,width,channel) tensorflow
+    TODO --> Multi reference label
+    """
+        
+    for idx_depth in reversed(range(len(label))):
+        if not np.any(label[idx_depth,:,:,reference_label])# and not np.any(label[idx_depth,:,:,2]): # specific channel
+            image = np.delete(image,idx_depth,axis=0)
+            label = np.delete(label,idx_depth,axis=0)
+
+    return image, label
