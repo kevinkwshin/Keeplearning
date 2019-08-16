@@ -20,9 +20,9 @@ def image_display(images, images_title_list, fig_size):
         
 #     print(len(images),images[0].GetDimension())
     if images[0].GetDimension()==2:
-        gui.multi_image_display2D(image_list=images, figure_size=fig_size, window_level_list=wl_list)
+        multi_image_display2D(image_list=images, figure_size=fig_size, window_level_list=wl_list)
     else:
-        gui.MultiImageDisplay(image_list=images, title_list=images_title_list, figure_size=fig_size, window_level_list=wl_list,shared_slider=True)
+        MultiImageDisplay(image_list=images, title_list=images_title_list, figure_size=fig_size, window_level_list=wl_list,shared_slider=True)
 
 class RegistrationPointDataAquisition(object):
     """
