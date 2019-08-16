@@ -6,6 +6,23 @@ import numpy as np
 from matplotlib.widgets import  RectangleSelector
 import matplotlib.patches as patches
 
+def image_display(images, images_title_list, fig_size):
+    """
+    images : numpy images [image1,image2,...]
+    images_title_list : string ['image1','image2',...]
+    fig_size : same as matplotlib.pyplot.figure(fig_size())
+    wl_list : window_level list [(),()]
+    """
+    for idx in range(len(images)):
+        image_ = images[idx]
+        image_ = sitk.GetImageFromArray(image_)
+        images[idx] = image_
+        
+#     print(len(images),images[0].GetDimension())
+    if images[0].GetDimension()==2:
+        gui.multi_image_display2D(image_list=images, figure_size=fig_size, window_level_list=wl_list)
+    else:
+        gui.MultiImageDisplay(image_list=images, title_list=images_title_list, figure_size=fig_size, window_level_list=wl_list,shared_slider=True)
 
 class RegistrationPointDataAquisition(object):
     """
