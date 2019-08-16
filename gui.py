@@ -6,7 +6,7 @@ import numpy as np
 from matplotlib.widgets import  RectangleSelector
 import matplotlib.patches as patches
 
-def image_display(images, images_title_list, fig_size):
+def image_display(images, images_title_list, fig_size,wl_list=None):
     """
     images : numpy images [image1,image2,...]
     images_title_list : string ['image1','image2',...]
