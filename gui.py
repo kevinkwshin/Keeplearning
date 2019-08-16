@@ -11,7 +11,7 @@ def image_display(images, images_title_list, fig_size,wl_list=None):
     images : numpy images [image1,image2,...]
     images_title_list : string ['image1','image2',...]
     fig_size : same as matplotlib.pyplot.figure(fig_size())
-    wl_list : window_level list [(),()]
+    wl_list : TODO... window_level_adjust
     """
     for idx in range(len(images)):
         image_ = images[idx]
