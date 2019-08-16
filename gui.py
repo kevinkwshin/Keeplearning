@@ -8,7 +8,9 @@ import matplotlib.patches as patches
 
 def image_display(images, images_title_list, fig_size,wl_list=None):
     """
-    Display 2D or 3D images, However image dimension should be same! 
+    Display 2D or 3D images, However image dimension should be same!
+    If it does not work, please launch "%matplotlib notebook" first!
+    
     Input Parameter
     - images : numpy images [image1,image2,...]
     - images_title_list : string ['image1','image2',...]
