@@ -1,4 +1,4 @@
-import re
+import re, random
 
 def list_sort_nicely(l):
     """ Sort the given list in the way that humans expect.
