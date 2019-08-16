@@ -22,9 +22,9 @@ def image_normalize(self,slice):
          return tmp
 
 def z_normalization(img, num_channels):
-     """
-     z_normalization
-     """
+    """
+    z_normalization
+    """
     for i in range(num_channels):
         img[..., i] -= np.mean(img[..., i])
         img[..., i] /= np.std(img[..., i])
