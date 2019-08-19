@@ -1,3 +1,4 @@
+import torch
 import numpy as np
 import SimpleITK as sitk
 import nibabel as nib
@@ -109,9 +110,6 @@ def image_resample_array(src_imgs, src_spacing, target_spacing):
     resampled_img = resize(img, target_shape, order=1, clip=True, mode='edge').astype('float32')
 
     return resampled_img
-
-import torch
-import numpy as np
 
 def label_binary_dilation(x, radius=3): # 확장
     """ Return fast binary morphological dilation of an image.
