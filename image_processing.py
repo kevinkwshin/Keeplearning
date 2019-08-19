@@ -216,9 +216,9 @@ def label_onehotEncoding(label,num_class,backend='keras'):
     if dimension != 3:
         print('error')
     else:
-        label_onehot = np.zeros((num_class,label.shape[0],label.shape[1],label.shape[2]))
+        label_onehot = np.zeros((num_class,label.shape[0],label.shape[1],label.shape[2])) #torch
         for idx in range(num_class):
-            label_temp = label.clone()
+            label_temp = label.copy() # torch --> clone()
             label_temp[label_temp!=idx]=0.
             label_temp[label_temp!=0.]=1.
             label_onehot[idx] = label_temp
