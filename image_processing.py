@@ -218,7 +218,7 @@ def label_onehot_encode(label,num_class):
     if dimension != 3:
         print('error')
     else:
-        label_onehot = torch.zeros((num_class,label.shape[0],label.shape[1],label.shape[2]))
+        label_onehot = np.zeros((num_class,label.shape[0],label.shape[1],label.shape[2]))
         for idx in range(num_class):
             label_temp = label.clone()
             label_temp[label_temp!=idx]=0.
