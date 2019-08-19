@@ -205,7 +205,7 @@ def label_voxel_remover(results):
     return results_processed
 
 
-def label_onehotEncoding(label,num_class):
+def label_onehotEncoding(label,num_class,backend='keras'):
     """
     #input shape  (value  0,1,2,...)   : (image_depth,image_height,image_width)
     #output shape (values 0,1) : (num_class+1,image_depth,image_height,image_width)
@@ -252,19 +252,23 @@ def label_onehotEncoding(label,num_class):
 #     return label_onehot
 
 
-def label_onehotDecoding(label_onehot):
+def label_onehotDecoding(label_onehot,backend='keras'):
     """
+    backend='keras'
     #input shape (values 0,1) : (channel,image_depth,image_height,image_width)
+    #output shape (value  0,1,2,...)  : (image_depth,image_height,image_width)
+    backend='pytorch'
+    #input shape (values 0,1) : (image_depth,image_height,image_width,channel)
     #output shape (value  0,1,2,...)  : (image_depth,image_height,image_width)
     """
 
     # torch
 #     label_onehot = label_onehot.squeeze()
 #     value, indices = torch.max(label_onehot,0).astype('float32')
-
-    # numpy
-    indices = np.argmax(label_onehot,0).astype('float32') # 0 for channel
-    
+    if backend='pytorch':
+          indices = np.argmax(label_onehot,0).astype('float32') # 0 for channel
+    else:
+          indices = np.argmax(label_onehot,-1).astype('float32') # 0 for channel
     return indices
 
 # def label_onehot_decode(label_onehot):
