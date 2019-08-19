@@ -204,9 +204,13 @@ def label_voxel_remover(results):
             results_processed[i,:,:,:,j][results_processed[i,:,:,:,j]!= 0] = 1 # added
     return results_processed
 
-
 def label_onehotEncoding(label,num_class,backend='keras'):
     """
+    backend='pytorch'
+    #input shape  (value  0,1,2,...)   : (image_depth,image_height,image_width)
+    #output shape (values 0,1) : (num_class+1,image_depth,image_height,image_width)
+    #background is 0, so channel should be num_class+1
+    backend='keras'
     #input shape  (value  0,1,2,...)   : (image_depth,image_height,image_width)
     #output shape (values 0,1) : (num_class+1,image_depth,image_height,image_width)
     #background is 0, so channel should be num_class+1
@@ -216,12 +220,20 @@ def label_onehotEncoding(label,num_class,backend='keras'):
     if dimension != 3:
         print('error')
     else:
-        label_onehot = np.zeros((num_class,label.shape[0],label.shape[1],label.shape[2])) #torch
+        if backend=='pytorch':
+            label_onehot = np.zeros((num_class,label.shape[0],label.shape[1],label.shape[2])) #torch
+        else:
+            label_onehot = np.zeros((label.shape[0],label.shape[1],label.shape[2],num_class))
+               
         for idx in range(num_class):
             label_temp = label.copy() # torch --> clone()
             label_temp[label_temp!=idx]=0.
             label_temp[label_temp!=0.]=1.
-            label_onehot[idx] = label_temp
+            
+            if backend=='pytorch':
+                label_onehot[idx] = label_temp
+            else:
+                label_onehot[...,idx] = label_temp
     return label_onehot
 
 # def label_onehot_encode(label,num_class):
