@@ -205,7 +205,7 @@ def label_voxel_remover(results):
     return results_processed
 
 
-def label_onehot_encode(label,num_class):
+def label_onehotEncoding(label,num_class):
     """
     #input shape  (value  0,1,2,...)   : (image_depth,image_height,image_width)
     #output shape (values 0,1) : (num_class+1,image_depth,image_height,image_width)
@@ -252,7 +252,7 @@ def label_onehot_encode(label,num_class):
 #     return label_onehot
 
 
-def label_onehot_decode(label_onehot):
+def label_onehotDecoding(label_onehot):
     """
     #input shape (values 0,1) : (channel,image_depth,image_height,image_width)
     #output shape (value  0,1,2,...)  : (image_depth,image_height,image_width)
