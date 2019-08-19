@@ -8,8 +8,8 @@ import matplotlib.patches as patches
 
 def image_3D_Display(images, images_title_list, fig_size=(8,4) ,wl_list=None):
     """
+    Need to launch "%matplotlib notebook" first!
     Interactive display single channel 3D or batched image like CT and MRI!
-    If it does not work, please launch "%matplotlib notebook" first!
     
     Input Parameter
     - images : numpy images [image1,image2,...]
