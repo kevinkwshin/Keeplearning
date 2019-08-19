@@ -265,7 +265,7 @@ def label_onehotDecoding(label_onehot,backend='keras'):
     # torch
 #     label_onehot = label_onehot.squeeze()
 #     value, indices = torch.max(label_onehot,0).astype('float32')
-    if backend='pytorch':
+    if backend=='pytorch':
           indices = np.argmax(label_onehot,0).astype('float32') # 0 for channel
     else:
           indices = np.argmax(label_onehot,-1).astype('float32') # 0 for channel
