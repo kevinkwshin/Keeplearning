@@ -19,7 +19,15 @@ def augmentation_bspline_tranform_parameter(sitk_image, MeshSize=6, scale_distor
     return tx
 
 def augmentation_bspline_tranform(sitk_input,tx,interpolator=sitk.sitkBSpline):
-    
+    '''
+    # Usage
+    image = sitk.ReadImage(path_image)
+    tx = bspline_tranform_parameter(image,MeshSize=6, scale_distortion=1)
+    aug_image = bspline_tranform(image,tx,sitk.sitkBSpline)
+    aug_image = sitk.GetArrayFromImage(aug_image)
+    aug_mask = bspline_tranform(mask,tx,sitk.sitkNearestNeighbor)
+    aug_mask = sitk.GetArrayFromImage(aug_mask)
+    '''
     resampler = sitk.ResampleImageFilter()
     resampler.SetReferenceImage(sitk_input)
     resampler.SetInterpolator(interpolator)
@@ -51,6 +59,12 @@ def augmentation_affine_transform_parameter(translation_3d,size_scale,matrix_sca
     return affine_matrix,affine_translation,affine_center,affine_scale
 
 def augmentation_affine_transform(sitk_input,interpolator):
+    '''
+    # Usage
+    affine_matrix,affine_translation,affine_center,affine_scale= affine_transform_parameter((0,10,10),0.05,0.05)
+    aug_image = affine_transform(image,sitk.sitkBSpline)
+    aug_mask  = affine_transform(mask,sitk.sitkNearestNeighbor)
+    '''
     transform = sitk.AffineTransform(affine_matrix, affine_translation, affine_center)
     transform.Scale(affine_scale)
 
@@ -59,8 +73,3 @@ def augmentation_affine_transform(sitk_input,interpolator):
     
     return aug_input
 
-
-# Usage
-# affine_matrix,affine_translation,affine_center,affine_scale= affine_transform_parameter((0,10,10),0.05,0.05)
-# aug_image = affine_transform(image,sitk.sitkBSpline)
-# aug_mask  = affine_transform(mask,sitk.sitkNearestNeighbor)
