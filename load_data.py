@@ -8,7 +8,6 @@ def load_nii(path,return_array=True):
     return image
 
 def load_dicom(path,return_array=True):
-    
     reader = sitk.ImageSeriesReader()
     dicom_names = reader.GetGDCMSeriesFileNames(path)
     reader.SetFileNames(dicom_names)
