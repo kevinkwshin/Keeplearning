@@ -1,3 +1,5 @@
+#TODO
+
 def sample_patches_randomly(self, num_patches, d , h , w ):
 
         '''
