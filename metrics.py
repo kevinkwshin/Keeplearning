@@ -19,6 +19,9 @@ def numeric_score(prediction, groundtruth):
     return FP, FN, TP, TN
 
 def dice_score(prediction, groundtruth):
+    '''
+    Dice Similarity Coefficient (F1 Score)
+    '''
     pflat = prediction.flatten()
     gflat = groundtruth.flatten()
     d = (1 - spatial.distance.dice(pflat, gflat)) * 100.0
@@ -97,9 +100,12 @@ def f1_score(prediction, groundtruth):
 #     accuracy = np.divide(TP + TN, N)
 #     return accuracy * 100.0
 
-
 def metric_scores_summary(prediction, groundtruth,threshold=0.5):
-    prediction = threshold_predictions(prediction,threshold)
+    """
+    threshold = 0 for false
+    """
+    if threshold == True:
+        prediction = threshold_predictions(prediction,threshold)
     
     dice = dice_score(prediction, groundtruth)
     precision = precision_score(prediction, groundtruth)
