@@ -134,7 +134,7 @@ def metric_scores_summary(groundtruth,prediction,threshold=0.5,print_score='Fals
     iou = intersection_over_union(groundtruth,prediction)
     accuracy = accuracy_score(groundtruth,prediction)
 #     hausdorff = hausdorff_score(prediction, groundtruth)  # only work for 2D
-    if print_score='True':
+    if print_score=='True':
         print("DSC {:.2f} PRECISION {:.2f} RECALL {:.2f} SPECIFICITY {:.2f} IOU {:.2f} ACCURACY {:.2f}".format(dice,precision,recall,specificity,iou,accuracy))
     return dice,precision,recall,specificity,iou,accuracy
 
