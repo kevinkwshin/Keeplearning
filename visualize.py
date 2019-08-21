@@ -16,7 +16,7 @@ def plot_3D(images, images_title_list, fig_size=(8,4) ,wl_list=None):
     - images_title_list : string ['image1','image2',...]
     - fig_size : same as matplotlib.pyplot.figure(fig_size())
     - wl_list : TODO... window_level_adjust
-    """  
+    """         
     for idx in range(len(images)):
         image_ = images[idx]
         image_ = sitk.GetImageFromArray(image_)
@@ -57,11 +57,11 @@ class RegistrationPointDataAquisition(object):
         # Display the data and the controls, first time we display the images is outside the "update_display" method
         # as that method relies on the previous zoom factor which doesn't exist yet.
         self.fixed_axes.imshow(self.fixed_npa[self.fixed_slider.value,:,:],
-#                                cmap=plt.cm.Greys_r,
+                               cmap=plt.cm.Greys_r,
                                vmin=self.fixed_min_intensity,
                                vmax=self.fixed_max_intensity)
         self.moving_axes.imshow(self.moving_npa[self.moving_slider.value,:,:],
-#                                 cmap=plt.cm.Greys_r,
+                                cmap=plt.cm.Greys_r,
                                 vmin=self.moving_min_intensity,
                                 vmax=self.moving_max_intensity)
         self.update_display()
@@ -137,7 +137,7 @@ class RegistrationPointDataAquisition(object):
         # Draw the fixed image in the first subplot and the localized points.
         self.fixed_axes.clear()
         self.fixed_axes.imshow(self.fixed_npa[self.fixed_slider.value,:,:],
-#                                cmap=plt.cm.Greys_r, 
+                               cmap=plt.cm.Greys_r, 
                                vmin=self.fixed_min_intensity,
                                vmax=self.fixed_max_intensity)
         # Positioning the text is a bit tricky, we position relative to the data coordinate system, but we
@@ -160,7 +160,7 @@ class RegistrationPointDataAquisition(object):
         # Draw the moving image in the second subplot and the localized points.
         self.moving_axes.clear()
         self.moving_axes.imshow(self.moving_npa[self.moving_slider.value,:,:],
-#                                 cmap=plt.cm.Greys_r,
+                                cmap=plt.cm.Greys_r,
                                 vmin=self.moving_min_intensity,
                                 vmax=self.moving_max_intensity)        
         for i, pnt in enumerate(self.moving_point_indexes):
@@ -263,7 +263,7 @@ class PointDataAquisition(object):
         # Display the data and the controls, first time we display the image is outside the "update_display" method
         # as that method relies on the previous zoom factor which doesn't exist yet.
         self.axes.imshow(self.npa[self.slice_slider.value,:,:],
-#                          cmap=plt.cm.Greys_r,
+                         cmap=plt.cm.Greys_r,
                          vmin=self.min_intensity,
                          vmax=self.max_intensity)
         self.update_display()
@@ -321,7 +321,7 @@ class PointDataAquisition(object):
         # Draw the image and localized points.
         self.axes.clear()
         self.axes.imshow(self.npa[self.slice_slider.value,:,:],
-#                          cmap=plt.cm.Greys_r, 
+                         cmap=plt.cm.Greys_r, 
                          vmin=self.min_intensity,
                          vmax=self.max_intensity)
         # Positioning the text is a bit tricky, we position relative to the data coordinate system, but we
@@ -417,7 +417,7 @@ def multi_image_display2D(image_list, title_list=None, window_level_list= None, 
     # Draw the image(s)
     for ax, npa, title, min_intensity, max_intensity in zip(axes, npa_list, title_list, min_intensity_list, max_intensity_list):
         ax.imshow(npa,
-#                   cmap=plt.cm.Greys_r,
+                  cmap=plt.cm.Greys_r,
                   vmin=min_intensity,
                   vmax=max_intensity)
         ax.set_title(title)
@@ -454,7 +454,7 @@ class MultiImageDisplay(object):
             self.slc[self.axis] = slice(slider.value, slider.value+1)
             # Need to use squeeze to collapse degenerate dimension (e.g. RGB image size 124 124 1 3)
             ax.imshow(np.squeeze(npa[self.slc]),
-#                       cmap=plt.cm.Greys_r,
+                      cmap=plt.cm.Greys_r,
                       vmin=min_intensity,
                       vmax=max_intensity)
         self.update_display()
@@ -523,7 +523,7 @@ class MultiImageDisplay(object):
             ax.clear()
             # Need to use squeeze to collapse degenerate dimension (e.g. RGB image size 124 124 1 3)
             ax.imshow(np.squeeze(npa[self.slc]),
-#                       cmap=plt.cm.Greys_r,
+                      cmap=plt.cm.Greys_r,
                       vmin=min_intensity,
                       vmax=max_intensity)
             ax.set_title(title)
@@ -573,7 +573,7 @@ class ROIDataAquisition(object):
         # Display the data and the controls, first time we display the image is outside the "update_display" method
         # as that method relies on the existance of a previous image which is removed from the figure.
         self.axes.imshow(self.npa[self.slice_slider.value,:,:],
-#                          cmap=plt.cm.Greys_r,
+                         cmap=plt.cm.Greys_r,
                          vmin=self.min_intensity,
                          vmax=self.max_intensity)
         self.update_display()
@@ -640,7 +640,7 @@ class ROIDataAquisition(object):
         # Draw the image and ROIs.
         # imshow adds an image to the axes, so we also remove the previous one.
         self.axes.imshow(self.npa[self.slice_slider.value,:,:],
-#                          cmap=plt.cm.Greys_r,
+                         cmap=plt.cm.Greys_r,
                          vmin=self.min_intensity,
                          vmax=self.max_intensity)
         self.axes.images[0].remove()
