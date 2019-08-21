@@ -20,7 +20,10 @@ def numeric_score(prediction, groundtruth):
 
 def dice_score(prediction, groundtruth):
     '''
-    Dice Similarity Coefficient (F1 Score)
+    Dice Similarity Coefficient (=F1 Score)
+
+    Reference
+    https://en.wikipedia.org/wiki/Receiver_operating_characteristic
     '''
     pflat = prediction.flatten()
     gflat = groundtruth.flatten()
