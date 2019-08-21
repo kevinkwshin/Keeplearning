@@ -120,9 +120,9 @@ def label_binary_dilation(x, radius=3): # 확장
     x : 2D array image.
     radius : int for the radius of mask.
     """
-    from skimage.morphology import disk, binary_dilation
+    from skimage.morphology import disk, binary_dilation,dilation
     mask = disk(radius)
-    x = binary_dilation(x, selem=mask)
+    x = dilation(x, selem=mask)
     return x 
 
 # multi-dimensional median filter # 레이블 스무딩
