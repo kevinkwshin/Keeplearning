@@ -47,6 +47,17 @@ def image_preprocess_float(img):
     img= 1-img
     return img
 
+def image_preprocess_uint8(img):
+    """
+    Cut off & Convert image array into 0~255
+    """
+    b = np.percentile(img, 99)
+    t = np.percentile(img, 1)
+    img = np.clip(img, t, b)
+    img= (img - b) / (t-b)
+    img= np.round((1-img)*255)
+    return img
+
 def image_preprocess_CT_uint8(img):
     """
     Convert CT image array in HU into 0~255 uint
