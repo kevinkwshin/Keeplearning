@@ -121,8 +121,8 @@ def threshold_predictions(predictions, threshold=0.5):
 
 def metric_scores_summary(groundtruth,prediction,threshold=0.5,print_score='False'):
     """
-    threshold = 0 for false
-    
+    - threshold : if no need to get threshold, threshold = False
+    - print_score : option for printing metrics
     """
     if threshold != False:
         prediction = threshold_predictions(prediction,threshold)
