@@ -72,13 +72,3 @@ def augmentation_affine_transform(sitk_input,interpolator):
     aug_input = sitk.Resample(sitk_input, reference_image, transform, interpolator)
     
     return aug_input
-
-
-def augmentation_keras(img, mask):
-    
-    seed = np.random.randint(0, 100, 1)[0]
-    for img in datagen.flow(img, batch_size=1, seed = seed):
-        break
-    for mask in datagen.flow(mask, batch_size=1, seed = seed):
-        break
-    return img, mask
