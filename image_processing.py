@@ -330,16 +330,19 @@ def label_RemoveNonLabeledSlice(image,label,reference_label):
 
     return image, label
 
+def dataset_buildNearByStack_3ch(image):
+    # shape (batch,height,width,1)
+    # last axis == channel
+    image_top = image.copy()
+    image_top = np.insert(image_top,0,0,axis=0)
+    image_top = np.delete(image_top,-1,axis=0)
+    
+    image_middle = image.copy()
+    
+    image_bottom = image.copy()
+    image_bottom = np.insert(image_bottom,-1,0,axis=0)
+    image_bottom = np.delete(image_bottom,0,axis=0)
+    
+    image = np.concatenate((image_top,image_middle,image_bottom),axis=-1)
+    return image
 
-def label_RemoveNonLabeledSlice(image,label,reference_label):
-    """
-    input : squential image & label (depth,height,width,channel) tensorflow
-    TODO --> Multi reference label
-    """
-        
-    for idx_depth in reversed(range(len(label))):
-        if not np.any(label[idx_depth,:,:,reference_label]):# and not np.any(label[idx_depth,:,:,2]): # specific channel
-            image = np.delete(image,idx_depth,axis=0)
-            label = np.delete(label,idx_depth,axis=0)
-
-    return image, label
