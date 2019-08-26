@@ -111,11 +111,11 @@ def f1_score(groundtruth,prediction):
     TNR = np.divide(2*TP, N)
     return TNR * 100.0
 
-def threshold_predictions(predictions, thr=0.5):
+def threshold_predictions(predictions, threshold=0.5):
     thresholded_preds = predictions[:]
-    low_values_indices = thresholded_preds < thr
+    low_values_indices = thresholded_preds < threshold
     thresholded_preds[low_values_indices] = 0
-    low_values_indices = thresholded_preds >= thr
+    low_values_indices = thresholded_preds >= threshold
     thresholded_preds[low_values_indices] = 1
     return thresholded_preds
 
@@ -125,7 +125,7 @@ def metric_scores_summary(groundtruth,prediction,threshold=0.5,print_score='Fals
     
     """
     if threshold == True:
-        prediction = threshold_predictions(groundtruth,prediction)
+        prediction = threshold_predictions(prediction,threshold)
     
     dice = dice_score(groundtruth,prediction)
     precision = precision_score(groundtruth,prediction)
