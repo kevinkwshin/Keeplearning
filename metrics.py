@@ -124,7 +124,7 @@ def metric_scores_summary(groundtruth,prediction,threshold=0.5,print_score='Fals
     threshold = 0 for false
     
     """
-    if threshold == True:
+    if threshold != False:
         prediction = threshold_predictions(prediction,threshold)
     
     dice = dice_score(groundtruth,prediction)
