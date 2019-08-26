@@ -28,3 +28,12 @@ def list_shuffle(list1,list2):
     list2 = list(list2)
     
     return list1, list2
+
+def list_split_train(list1,list2,rate=0.4):
+    
+    x_train_  = list1[:-int(len(list1)*rate)]
+    y_train_  = list2[:-int(len(list2)*rate)]
+    x_tuning_ = list1[-int(len(list1)*rate):]
+    y_tuning_ = list2[-int(len(list2)*rate):]
+    
+    return x_train_,y_train_,x_tuning_,y_tuning_
