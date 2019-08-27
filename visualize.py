@@ -5,7 +5,7 @@ from IPython.display import display
 import numpy as np
 from matplotlib.widgets import  RectangleSelector
 import matplotlib.patches as patches
-from sklearn import roc_curve
+from sklearn.metrics import roc_curve
 
 def plot_auc_roc(label,pred):
     ground_truth_labels =label.ravel()
