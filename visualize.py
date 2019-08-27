@@ -26,7 +26,7 @@ def plot_auc_roc(label,pred):
 
 def plot_3D(images, images_title_list, fig_size=(8,4) ,wl_list=None):
     """
-    Need to launch "%matplotlib notebook" first!
+    %matplotlib notebook <-- Need to launch this first!
     Interactive display single channel 3D or batched image like CT and MRI!
     
     Input Parameter
