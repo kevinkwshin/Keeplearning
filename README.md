@@ -26,5 +26,4 @@
     from Keeplearning.augmentation_3D import *
     from Keeplearning.visualize import *
     from Keeplearning.metrics import *
-    
 </code>
