@@ -6,7 +6,6 @@
 ### 4.gui
 
 <code>
-  <p>
     
     !rm -r Keeplearning
     !rm -r Pytorch_library
@@ -28,5 +27,4 @@
     from Keeplearning.visualize import *
     from Keeplearning.metrics import *
     
-  </p>
 </code>
