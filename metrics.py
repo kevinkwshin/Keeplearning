@@ -21,7 +21,7 @@ def numeric_score(groundtruth,prediction):
     TN = np.float(np.sum((prediction == 0) & (groundtruth == 0)))
     return FP, FN, TP, TN
 
-def dice_score(groundtruth,prediction):
+def score_dice(groundtruth,prediction):
     '''
     Dice Similarity Coefficient (=F1 Score)
 
@@ -35,7 +35,7 @@ def dice_score(groundtruth,prediction):
         return 0.0
     return d
 
-def jaccard_score(groundtruth,prediction):
+def score_jaccard(groundtruth,prediction):
     '''
     Reference
     https://en.wikipedia.org/wiki/Receiver_operating_characteristic
@@ -44,10 +44,10 @@ def jaccard_score(groundtruth,prediction):
     gflat = groundtruth.flatten()
     return (1 - spatial.distance.jaccard(pflat, gflat)) * 100.0
 
-def hausdorff_score(groundtruth,prediction):
+def score_hausdorff(groundtruth,prediction):
     return spatial.distance.directed_hausdorff(groundtruth,prediction)[0]
 
-def precision_score(groundtruth,prediction):
+def score_precision(groundtruth,prediction):
     '''
     Reference
     https://en.wikipedia.org/wiki/Receiver_operating_characteristic
@@ -59,7 +59,7 @@ def precision_score(groundtruth,prediction):
     precision = np.divide(TP, TP + FP)
     return precision * 100.0
 
-def recall_score(groundtruth,prediction):
+def score_recall(groundtruth,prediction):
     '''
     Reference
     https://en.wikipedia.org/wiki/Receiver_operating_characteristic
@@ -70,7 +70,7 @@ def recall_score(groundtruth,prediction):
     TPR = np.divide(TP, TP + FN)
     return TPR * 100.0
 
-def specificity_score(groundtruth,prediction):
+def score_specificity(groundtruth,prediction):
     '''
     Reference
     https://en.wikipedia.org/wiki/Receiver_operating_characteristic
@@ -81,7 +81,7 @@ def specificity_score(groundtruth,prediction):
     TNR = np.divide(TN, TN + FP)
     return TNR * 100.0
 
-def intersection_over_union(groundtruth,prediction):
+def score_iou(groundtruth,prediction):
     '''
     Reference
     https://en.wikipedia.org/wiki/Receiver_operating_characteristic
@@ -91,7 +91,7 @@ def intersection_over_union(groundtruth,prediction):
         return 0.0
     return TP / (TP + FP + FN) * 100.0
 
-def accuracy_score(groundtruth,prediction):
+def score_accuracy(groundtruth,prediction):
     '''
     Reference
     https://en.wikipedia.org/wiki/Receiver_operating_characteristic
@@ -101,7 +101,7 @@ def accuracy_score(groundtruth,prediction):
     TNR = np.divide(TP + TN, N)
     return TNR * 100.0
 
-def f1_score(groundtruth,prediction):
+def score_f1(groundtruth,prediction):
     '''
     Reference
     https://en.wikipedia.org/wiki/Receiver_operating_characteristic
@@ -121,33 +121,22 @@ def threshold_predictions(predictions, threshold=0.5):
 
 def metric_scores_summary(groundtruth,prediction,threshold=False,print_score=False):
     """
+    !!! All values should be onehot endcoded !!!
     - threshold : if no need to get threshold, threshold = False
     - print_score : option for printing metrics
     """
     if threshold != False:
         prediction = threshold_predictions(prediction,threshold)
     
-    dice = dice_score(groundtruth,prediction)
-    precision = precision_score(groundtruth,prediction)
-    recall = recall_score(groundtruth,prediction)
-    specificity = specificity_score(groundtruth,prediction)
-    iou = intersection_over_union(groundtruth,prediction)
-    accuracy = accuracy_score(groundtruth,prediction)
+    dice = score_dice(groundtruth,prediction)
+    precision = score_precision(groundtruth,prediction)
+    recall = score_recall(groundtruth,prediction)
+    specificity = score_specificity(groundtruth,prediction)
+    iou = score_iou(groundtruth,prediction)
+    accuracy = score_accuracy(groundtruth,prediction)
 #     hausdorff = hausdorff_score(prediction, groundtruth)  # only work for 2D
+
     if print_score==True:
         print("DSC {:.2f} PRECISION {:.2f} RECALL {:.2f} SPECIFICITY {:.2f} IOU {:.2f} ACCURACY {:.2f}".format(dice,precision,recall,specificity,iou,accuracy))
+    
     return dice,precision,recall,specificity,iou,accuracy
-
-
-# def numeric_score(prediction, groundtruth):
-#     FP = np.float(np.sum((prediction == 1) & (groundtruth == 0)))
-#     FN = np.float(np.sum((prediction == 0) & (groundtruth == 1)))
-#     TP = np.float(np.sum((prediction == 1) & (groundtruth == 1)))
-#     TN = np.float(np.sum((prediction == 0) & (groundtruth == 0)))
-#     return FP, FN, TP, TN 
-  
-# def accuracy(prediction, groundtruth):
-#     FP, FN, TP, TN = numeric_score(prediction, groundtruth)
-#     N = FP + FN + TP + TN
-#     accuracy = np.divide(TP + TN, N)
-#     return accuracy * 100.0
