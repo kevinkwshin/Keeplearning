@@ -1,5 +1,6 @@
 import SimpleITK as sitk
 import nibabel as nib
+import numpy as np
 
 def load_nii(path,return_info=False,return_array=True):
     """
