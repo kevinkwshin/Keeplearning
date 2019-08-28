@@ -68,8 +68,9 @@ def image_preprocess_CT_uint8(img):
     img /= (2**12-1)
     return img
 
-def image_resize(data, img_dep=200., img_rows=200., img_cols=200.,mode='constant'): # 3D image
+def image_resize_3D(data, img_dep=200., img_rows=200., img_cols=200.,mode='constant'): # 3D image
     """
+    Resizer for 3D image
     mode : 'constant’ for image, ‘nearest' for mask
     """
     resize_factor = (img_dep/data.shape[0], img_rows/data.shape[1], img_cols/data.shape[2])
@@ -147,7 +148,6 @@ def label_threshold(data,threshold=0.5):
     data[data>threshold] =1
     return data
 
-
 def label_crop_nonzero_slice(dimension,image,mask,*args):
     if dimension==3:
         xs,ys,zs = np.where(mask!=0)
@@ -161,7 +161,6 @@ def label_crop_nonzero_slice(dimension,image,mask,*args):
         print('dimension should be 3 or 4')
 #     print(args[1])
     return image,mask,args[0]
-
 
 def label_crop_curriculum(image,mask,crop_shape):
     # input shape
@@ -192,7 +191,6 @@ def label_crop_curriculum(image,mask,crop_shape):
 #     mask_ = image_resize(label_,D,H,W,'nearest')
     
     return image_,mask_
-
 
 def label_voxel_remover(results):
     # Tensorflow 5D tensor (batch,img_dep,img_cols,img_rows,img_channel)
@@ -315,7 +313,6 @@ def label_onehotDecoding(label_onehot,backend='keras'):
 #         label += label_temp
 #     print(np.unique(label))
 #     return label
-
 
 def label_RemoveNonLabeledSlice(image,label,reference_label):
     """
