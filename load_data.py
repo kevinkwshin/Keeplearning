@@ -2,7 +2,7 @@ import SimpleITK as sitk
 import nibabel as nib
 import numpy as np
 
-def load_nii(path,return_info=False,return_array=True):
+def data_load_nii(path,return_info=False,return_array=True):
     """
     Parameter
     - path
@@ -23,7 +23,7 @@ def load_nii(path,return_info=False,return_array=True):
     else:
         return image
 
-def load_dicom(path,return_info=False,return_array=True):
+def data_load_dicom(path,return_info=False,return_array=True):
     reader = sitk.ImageSeriesReader()
     dicom_names = reader.GetGDCMSeriesFileNames(path)
     reader.SetFileNames(dicom_names)
@@ -41,7 +41,7 @@ def load_dicom(path,return_info=False,return_array=True):
     else:
         return image
     
-def image_save_itk(image, origin, spacing, filename='image.nii.gz'):
+def data_save_itk(image, origin, spacing, filename='image.nii.gz'):
     """
     !! Not Completed
     You need need get origin & spacing data.
