@@ -215,6 +215,8 @@ def label_voxel_remover(results):
 
 def label_onehotEncoding(label,num_class,backend='keras'):
     """
+    !!! Must include background(0)
+    
     backend='pytorch'
     #input shape  (value  0,1,2,...)   : (image_depth,image_height,image_width)
     #output shape (values 0,1) : (num_class+1,image_depth,image_height,image_width)
@@ -275,6 +277,8 @@ def label_onehotEncoding(label,num_class,backend='keras'):
 
 def label_onehotDecoding(label_onehot,backend='keras'):
     """
+    !!! Must include background(0)
+    
     backend='keras'
     #input shape (values 0,1) : (channel,image_depth,image_height,image_width)
     #output shape (value  0,1,2,...)  : (image_depth,image_height,image_width)
