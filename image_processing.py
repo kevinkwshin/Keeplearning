@@ -276,7 +276,7 @@ def label_onehotEncoding(label,num_class,backend='keras'):
 #     return label_onehot
 
 
-def label_onehotDecoding(label_onehot,backend='keras'):
+def label_onehotDecoding_softmax(label_onehot,backend='keras'):
     """
     !!! Must include background(0)
     
@@ -297,22 +297,22 @@ def label_onehotDecoding(label_onehot,backend='keras'):
           indices = np.argmax(label_onehot,-1).astype('float32') # 0 for channel
     return indices
 
-# def label_onehotDecoding_byClass(label_onehot):
-#     """
-#     !!! Must include background(0)
-#     """
+def label_onehotDecoding_sigmoid(label_onehot,backend='keras'):
+    """
+    !!! Must include background(0)
+    """
     
-# #     label_onehot[label_onehot>=0.5]=1.
-# #     label_onehot[label_onehot<0.5]=0.
+#     label_onehot[label_onehot>=0.5]=1.
+#     label_onehot[label_onehot<0.5]=0.
     
-#     label = np.zeros((label_onehot.shape[1],label_onehot.shape[2],label_onehot.shape[3]))
-#     for idx in range(len(label_onehot)):
-#         label_temp = label_onehot[idx]
-#         label_temp[label_temp!=1.]=0.
-#         label_temp[label_temp==1.]=idx+1
-#         label += label_temp
-#     print(np.unique(label))
-#     return label
+    label = np.zeros((label_onehot.shape[1],label_onehot.shape[2],label_onehot.shape[3]))
+    for idx in range(len(label_onehot)):
+        label_temp = label_onehot[idx]
+        label_temp[label_temp!=1.]=0.
+        label_temp[label_temp==1.]=idx+1
+        label += label_temp
+    print(np.unique(label))
+    return label
 
 def label_RemoveNonLabeledSlice(image,label,reference_label):
     """
