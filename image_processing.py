@@ -307,16 +307,21 @@ def label_onehotDecoding_sigmoid(label_onehot,backend='keras'):
     !!! Must include background(0)
     """
     
-#     label_onehot[label_onehot>=0.5]=1.
-#     label_onehot[label_onehot<0.5]=0.
+    if backend=='pytorch':  
+        label = np.zeros((label_onehot.shape[1],label_onehot.shape[2],label_onehot.shape[3]))
+        for idx in range(label_onehot.shape[0]):
+            label_temp = label_onehot[idx]
+            label_temp[label_temp!=1.]=0.
+            label_temp[label_temp==1.]=idx+1
+            label += label_temp
+    else:
+        label = np.zeros((label_onehot.shape[0],label_onehot.shape[1],label_onehot.shape[2]))
+        for idx in range(label_onehot.shape[-1]):
+            label_temp = label_onehot[...,idx]
+            label_temp[label_temp!=1.]=0.
+            label_temp[label_temp==1.]=idx+1
+            label += label_temp
     
-    label = np.zeros((label_onehot.shape[1],label_onehot.shape[2],label_onehot.shape[3]))
-    for idx in range(len(label_onehot)):
-        label_temp = label_onehot[idx]
-        label_temp[label_temp!=1.]=0.
-        label_temp[label_temp==1.]=idx+1
-        label += label_temp
-    print(np.unique(label))
     return label
 
 def label_RemoveNonLabeledSlice(image,label,reference_label):
