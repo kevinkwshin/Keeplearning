@@ -18,7 +18,7 @@
     # from Pytorch_library.losses import *
     # from Pytorch_library.models_3D import *
 
-    from Keras_library.keras_preprocessing_3D import *
+    from Keras_library.keras_image_preprocessing_3D import *
 
     from Keeplearning.image_processing import *
     from Keeplearning.list_processing import *
