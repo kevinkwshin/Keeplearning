@@ -193,26 +193,31 @@ def label_crop_curriculum(image,mask,crop_shape):
     
     return image_,mask_
 
-def label_voxel_remover(results):
-    # Tensorflow 5D tensor (batch,img_dep,img_cols,img_rows,img_channel)
-    # Pytorch 5D tensor (batch,img_channel,img_dep,img_cols,img_rows)
-    results_processed = np.zeros((results.shape[0],results.shape[1],results.shape[2],results.shape[3],results.shape[4]))
+def label_voxelRemovalExcept1Cluster(inputs):
+    # Tensorflow 5D tensor (img_dep,img_cols,img_rows,img_channel)
+    # Pytorch 5D tensor (img_channel,img_dep,img_cols,img_rows)
+    """
+    label_voxel remover for 4D tensor [...,class]
+    Remove noise except 1 main voxel    
+    """
+    outputs = np.zeros((inputs.shape[0],inputs.shape[1],inputs.shape[2],inputs.shape[3]))
     
-    for i in range(results.shape[0]):
-        for j in range(results.shape[-1]):
-            results_processed[i,:,:,:,j] = measure.label(results[i,:,:,:,j], background = 0)
-            cluster = np.unique(results_processed[i,:,:,:,j])
-            cluster_max_voxels = 0
+    for j in range(inputs.shape[-1]):
+        outputs[:,:,:,j] = measure.label(inputs[:,:,:,j], background = 0)
+        cluster = np.unique(outputs[:,:,:,j])
+        cluster_max_voxels = 0
 
-            for k in sorted(cluster)[1:]:
-                number_of_voxels = len(results_processed[i,:,:,:,j][results_processed[i,:,:,:,j] == k])
-                if cluster_max_voxels < number_of_voxels:
-                    cluster_max_voxels = number_of_voxels
-                    cluster_max_label = k
-                    
-            results_processed[i,:,:,:,j][results_processed[i,:,:,:,j]!= cluster_max_label] = 0
-            results_processed[i,:,:,:,j][results_processed[i,:,:,:,j]!= 0] = 1 # added
-    return results_processed
+        for k in sorted(cluster)[1:]:
+            number_of_voxels = len(outputs[:,:,:,j][outputs[:,:,:,j] == k])
+            
+            if cluster_max_voxels < number_of_voxels:
+                cluster_max_voxels = number_of_voxels
+                cluster_max_label = k
+                
+        outputs[:,:,:,j][outputs[:,:,:,j]!= cluster_max_label] = 0
+        outputs[:,:,:,j][outputs[:,:,:,j]!= 0] = 1
+
+    return outputs
 
 def label_onehotEncoding(label,num_class,backend='keras'):
     """
