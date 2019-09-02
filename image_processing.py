@@ -297,18 +297,13 @@ def label_onehotDecoding(label_onehot,backend='keras'):
           indices = np.argmax(label_onehot,-1).astype('float32') # 0 for channel
     return indices
 
-# def label_onehot_decode(label_onehot):
-#     #input shape (values 0,1) : (channel,image_depth,image_height,image_width)
-#     #output shape (value  0,1,2,...)  : (image_depth,image_height,image_width)
-
-#     # torch
-# #     label_onehot = label_onehot.squeeze()
-# #     value, indices = torch.max(label_onehot,0).astype('float32')
-
-#     # numpy
+# def label_onehotDecoding_byClass(label_onehot):
+#     """
+#     !!! Must include background(0)
+#     """
     
-#     label_onehot[label_onehot>=0.5]=1.
-#     label_onehot[label_onehot<0.5]=0.
+# #     label_onehot[label_onehot>=0.5]=1.
+# #     label_onehot[label_onehot<0.5]=0.
     
 #     label = np.zeros((label_onehot.shape[1],label_onehot.shape[2],label_onehot.shape[3]))
 #     for idx in range(len(label_onehot)):
