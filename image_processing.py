@@ -289,7 +289,7 @@ def label_onehotEncoding(label,num_class,backend='keras'):
 #     return label_onehot
 
 
-def label_onehotDecoding_softmax(label_onehot,backend='keras'):
+def label_onehotDecoding_argmax(label_onehot,backend='keras'):
     """
     !!! Must include background(0)
     
@@ -310,7 +310,7 @@ def label_onehotDecoding_softmax(label_onehot,backend='keras'):
           indices = np.argmax(label_onehot,-1).astype('float32') # 0 for channel
     return indices
 
-def label_onehotDecoding_sigmoid(label_onehot,backend='keras'):
+def label_onehotDecoding_without0(label_onehot,backend='keras'):
     """
     !!! Must not include background(0)
     """
