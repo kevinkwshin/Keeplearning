@@ -329,10 +329,7 @@ def label_onehotDecoding_sigmoid(label_onehot,backend='keras'):
             label_temp[label_temp!=1.]=0.
             label_temp[label_temp==1.]=idx+1
             label += label_temp
-            
-            if len(label[label>idx+1])>0
-                label_1 = label_getCentroid()
-                label_2 = label_getCentroid()
+            label[label>idx+1] = idx
             
     return label
 
