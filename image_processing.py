@@ -37,16 +37,24 @@ def sample_z_norm(data, mean=0.174634420286961, sd=0.11619528340846214):
     data /= sd
     return data
 
-def image_preprocess_float(img):
-    """
-    Convert image array into 0~1 float
-    """
-    b = np.percentile(img, 99)
-    t = np.percentile(img, 1)
-    img = np.clip(img, t, b)
-    img= (img - b) / (t-b)
-    img= 1-img
-    return img
+# def image_preprocess_float(img):
+#     """
+#     Convert image array into 0~1 float
+#     """
+#     b = np.percentile(img, 99)
+#     t = np.percentile(img, 1)
+#     img = np.clip(img, t, b)
+#     img= (img - b) / (t-b)
+#     img= 1-img
+#     return img
+
+def image_preprocess_float(x):
+    """Scale image to range 0..1 for correct plot"""
+    x_max = np.percentile(x, 98)
+    x_min = np.percentile(x, 2)    
+    x = (x - x_min) / (x_max - x_min)
+    x = x.clip(0, 1)
+    return x
 
 def image_preprocess_uint8(img):
     """
@@ -304,7 +312,7 @@ def label_onehotDecoding_softmax(label_onehot,backend='keras'):
 
 def label_onehotDecoding_sigmoid(label_onehot,backend='keras'):
     """
-    !!! Must include background(0)
+    !!! Must not include background(0)
     """
     
     if backend=='pytorch':  
@@ -321,9 +329,27 @@ def label_onehotDecoding_sigmoid(label_onehot,backend='keras'):
             label_temp[label_temp!=1.]=0.
             label_temp[label_temp==1.]=idx+1
             label += label_temp
-    
+            
+            if len(label[label>idx+1])>0
+                label_1 = label_getCentroid()
+                label_2 = label_getCentroid()
+            
     return label
 
+def label_getCentroid(label):
+    """Input Label should be binary and numpy array"""
+    
+    count= len(np.argwhere(label == 1))
+    if count ==0:
+        print('Label does not have the value 1')
+        
+    if len(label.shape)==2:
+        center_height, center_width = np.argwhere(label == 1).sum(0)/count
+        return center_height, center_width
+    elif len(label.shape)==3:
+        center_depth,center_height, center_width = np.argwhere(label == 1).sum(0)/count
+        return center_depth,center_height, center_width
+    
 def label_RemoveNonLabeledSlice(image,label,reference_label):
     """
     input : squential image & label (depth,height,width,channel) tensorflow
