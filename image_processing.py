@@ -83,7 +83,7 @@ def image_resize_3D(data, img_dep=200., img_rows=200., img_cols=200.,mode='const
     mode : 'constant’ for image, ‘nearest' for mask
     """
     resize_factor = (img_dep/data.shape[0], img_rows/data.shape[1], img_cols/data.shape[2])
-    data = ndimage.zoom(data, resize_factor, order=3, mode=mode, cval=0.0)
+    data = ndimage.zoom(data, resize_factor, order=2, mode=mode, cval=0.0)
     return data
 
 def image_windowing(img, ww=1800, wl=400):
