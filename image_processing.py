@@ -49,23 +49,25 @@ def sample_z_norm(data, mean=0.174634420286961, sd=0.11619528340846214):
 #     return img
 
 def image_preprocess_float(x):
-    """Scale image to range 0..1 for correct plot"""
+    """
+    Scale image to range 0..1 for correct plot
+    """
     x_max = np.percentile(x, 98)
     x_min = np.percentile(x, 2)    
     x = (x - x_min) / (x_max - x_min)
     x = x.clip(0, 1)
     return x
 
-def image_preprocess_uint8(img):
+def image_preprocess_uint8(x):
     """
     Cut off & Convert image array into 0~255
     """
-    b = np.percentile(img, 99)
-    t = np.percentile(img, 1)
-    img = np.clip(img, t, b)
-    img= (img - b) / (t-b)
-    img= np.round((1-img)*255)
-    return img
+    x_max = np.percentile(x, 98)
+    x_min = np.percentile(x, 2)    
+    x = (x - x_min) / (x_max - x_min)
+    x = x.clip(0, 1)
+    x= np.round(x*255)
+    return x
 
 def image_preprocess_CT_uint8(img):
     """
