@@ -5,23 +5,23 @@ import nibabel as nib
 from scipy import ndimage
 from skimage import measure
 
-def image_normalize(self,slice):
-     """
-         input: unnormalized slice 
-         OUTPUT: normalized clipped slice
-     """
-     b = np.percentile(slice, 98)
-     t = np.percentile(slice, 2)
-     slice = np.clip(slice, t, b)
-     image_nonzero = slice[np.nonzero(slice)]
-     if np.std(slice)==0 or np.std(image_nonzero) == 0:
-         return slice
-     else:
-         tmp= (slice - np.mean(image_nonzero)) / np.std(image_nonzero)
-         #since the range of intensities is between 0 and 5000 ,the min in the normalized slice corresponds to 0 intensity in unnormalized slice
-         #the min is replaced with -9 just to keep track of 0 intensities so that we can discard those intensities afterwards when sampling random patches
-         tmp[tmp==tmp.min()]=-9
-         return tmp
+# def image_normalize(self,slice):
+#      """
+#          input: unnormalized slice 
+#          OUTPUT: normalized clipped slice
+#      """
+#      b = np.percentile(slice, 98)
+#      t = np.percentile(slice, 2)
+#      slice = np.clip(slice, t, b)
+#      image_nonzero = slice[np.nonzero(slice)]
+#      if np.std(slice)==0 or np.std(image_nonzero) == 0:
+#          return slice
+#      else:
+#          tmp= (slice - np.mean(image_nonzero)) / np.std(image_nonzero)
+#          #since the range of intensities is between 0 and 5000 ,the min in the normalized slice corresponds to 0 intensity in unnormalized slice
+#          #the min is replaced with -9 just to keep track of 0 intensities so that we can discard those intensities afterwards when sampling random patches
+#          tmp[tmp==tmp.min()]=-9
+#          return tmp
 
 def z_normalization(img, num_channels):
     """
@@ -88,7 +88,7 @@ def image_windowing(img, ww=1800, wl=400):
     """
     preprocessing for CT image (medical)
     Parameters
-    - img shape [width, height, depth]
+    - img shape [width, height, depth] <- 3D
     - ww & wl: bone preset
     """
     maxp = np.max(img)
