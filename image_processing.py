@@ -10,8 +10,8 @@ def image_normalize(self,slice):
          input: unnormalized slice 
          OUTPUT: normalized clipped slice
      """
-     b = np.percentile(slice, 99)
-     t = np.percentile(slice, 1)
+     b = np.percentile(slice, 98)
+     t = np.percentile(slice, 2)
      slice = np.clip(slice, t, b)
      image_nonzero = slice[np.nonzero(slice)]
      if np.std(slice)==0 or np.std(image_nonzero) == 0:
