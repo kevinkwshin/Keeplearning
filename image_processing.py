@@ -5,23 +5,6 @@ import nibabel as nib
 from scipy import ndimage
 from skimage import measure
 
-# def image_normalize(self,slice):
-#      """
-#          input: unnormalized slice 
-#          OUTPUT: normalized clipped slice
-#      """
-#      b = np.percentile(slice, 98)
-#      t = np.percentile(slice, 2)
-#      slice = np.clip(slice, t, b)
-#      image_nonzero = slice[np.nonzero(slice)]
-#      if np.std(slice)==0 or np.std(image_nonzero) == 0:
-#          return slice
-#      else:
-#          tmp= (slice - np.mean(image_nonzero)) / np.std(image_nonzero)
-#          #since the range of intensities is between 0 and 5000 ,the min in the normalized slice corresponds to 0 intensity in unnormalized slice
-#          #the min is replaced with -9 just to keep track of 0 intensities so that we can discard those intensities afterwards when sampling random patches
-#          tmp[tmp==tmp.min()]=-9
-#          return tmp
 
 def z_normalization(img, num_channels):
     """
@@ -81,7 +64,7 @@ def label_resize_3D(data, img_dep=200., img_rows=200., img_cols=200.): # 3D imag
     Resizer for 3D image
     """
     resize_factor = (img_dep/data.shape[0], img_rows/data.shape[1], img_cols/data.shape[2])
-    data = ndimage.zoom(data, resize_factor, order=2, mode='nearest', cval=0.0)
+    data = ndimage.zoom(data, resize_factor, order=0, mode='nearest', cval=0.0)
     return data
 
 def image_windowing(img, ww=1800, wl=400):
