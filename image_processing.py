@@ -37,17 +37,6 @@ def sample_z_norm(data, mean=0.174634420286961, sd=0.11619528340846214):
     data /= sd
     return data
 
-# def image_preprocess_float(img):
-#     """
-#     Convert image array into 0~1 float
-#     """
-#     b = np.percentile(img, 99)
-#     t = np.percentile(img, 1)
-#     img = np.clip(img, t, b)
-#     img= (img - b) / (t-b)
-#     img= 1-img
-#     return img
-
 def image_preprocess_float(x):
     """
     Scale image to range 0..1 for correct plot
