@@ -66,5 +66,16 @@ def transform_matrix_offset_center(matrix, x, y, z):
     reset_matrix = np.array([[1, 0, 0, -o_x], [0, 1, 0, -o_y], [0, 0, 1, -o_z], [0, 0, 0, 1]])
     transform_matrix = np.dot(np.dot(offset_matrix, matrix), reset_matrix)
     return transform_matrix
+
+
+def apply_transform(x, transform_matrix, channel_index=0, fill_mode='nearest', cval=0.):
+    x = np.rollaxis(x, channel_index, 0)
+    final_affine_matrix = transform_matrix[:3, :3]
+    final_offset = transform_matrix[:3, 3]
+    channel_images = [ndi.interpolation.affine_transform(x_channel, final_affine_matrix,
+                      final_offset, order=0, mode=fill_mode, cval=cval) for x_channel in x]
+    x = np.stack(channel_images, axis=0)
+    x = np.rollaxis(x, 0, channel_index+1)
+    return x
   
   
