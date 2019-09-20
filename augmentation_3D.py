@@ -1,3 +1,4 @@
+import numpy as np
 # if backend == 'pytorch'
 #     self.channel_index = 1
 #     self.dep_index = 2
