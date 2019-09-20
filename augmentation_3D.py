@@ -19,10 +19,16 @@ def random_rotation_3D(x, rg, backend='keras',
     rg : (float,float,float)
     
     """
-    dep_index=1,
-    row_index=2,
-    col_index=3, 
-    channel_index=0,
+    if backend=='keras':
+         dep_index=0
+         row_index=1
+         col_index=2
+         channel_index=3
+    else:
+         dep_index=1
+         row_index=2
+         col_index=3
+         channel_index=0
     
     theta1 = np.pi / 180 * np.random.uniform(-rg[0], rg[0])
     theta2 = np.pi / 180 * np.random.uniform(-rg[1], rg[1])
@@ -45,6 +51,7 @@ def random_rotation_3D(x, rg, backend='keras',
                                   [0, np.sin(theta3), np.cos(theta3), 0],
                                   [0, 0, 0, 1]])
     rotation_matrix = np.dot(np.dot(rotation_matrix_y, rotation_matrix_z), rotation_matrix_x)
+    print(x.shape)
 
     h, w, d = x.shape[row_index], x.shape[col_index], x.shape[dep_index]
     transform_matrix = transform_matrix_offset_center(rotation_matrix, d, w, h)
