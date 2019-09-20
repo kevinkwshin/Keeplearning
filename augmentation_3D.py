@@ -1,18 +1,18 @@
-if backend == 'pytorch'
-    self.channel_index = 1
-    self.dep_index = 2
-    self.row_index = 3
-    self.col_index = 4
-if backend == 'keras'
-    self.channel_index = 4
-    self.dep_index = 1
-    self.row_index = 2
-    self.col_index = 3
+# if backend == 'pytorch'
+#     self.channel_index = 1
+#     self.dep_index = 2
+#     self.row_index = 3
+#     self.col_index = 4
+# if backend == 'keras'
+#     self.channel_index = 4
+#     self.dep_index = 1
+#     self.row_index = 2
+#     self.col_index = 3
 
 # def random_rotation_3D(x, rg, row_index=2, col_index=3, dep_index = 1, channel_index=0,
 #                     fill_mode='nearest', cval=0.):
   
-def random_rotation_3D(x, rg, 
+def random_rotation_3D(x, rg, backend='keras',
                     fill_mode='nearest', cval=0.):
     """
     rg : (float,float,float)
