@@ -13,8 +13,7 @@ import numpy as np
 # def random_rotation_3D(x, rg, row_index=2, col_index=3, dep_index = 1, channel_index=0,
 #                     fill_mode='nearest', cval=0.):
   
-def random_rotation_3D(x, rg, backend='keras',
-                    fill_mode='nearest', cval=0.):
+def random_rotation_3D(x, rg, backend='keras', fill_mode='nearest', cval=0.):
     """
     rg : (float,float,float)
     
@@ -57,5 +56,15 @@ def random_rotation_3D(x, rg, backend='keras',
     transform_matrix = transform_matrix_offset_center(rotation_matrix, d, w, h)
     x = apply_transform(x, transform_matrix, channel_index, fill_mode, cval)
     return x
+
+
+def transform_matrix_offset_center(matrix, x, y, z):
+    o_x = float(x) / 2 + 0.5
+    o_y = float(y) / 2 + 0.5
+    o_z = float(z) / 2 + 0.5
+    offset_matrix = np.array([[1, 0, 0, o_x], [0, 1, 0, o_y], [0, 0, 1, o_z], [0, 0, 0, 1]])
+    reset_matrix = np.array([[1, 0, 0, -o_x], [0, 1, 0, -o_y], [0, 0, 1, -o_z], [0, 0, 0, 1]])
+    transform_matrix = np.dot(np.dot(offset_matrix, matrix), reset_matrix)
+    return transform_matrix
   
   
