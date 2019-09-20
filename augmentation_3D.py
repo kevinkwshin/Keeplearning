@@ -1,4 +1,13 @@
 import numpy as np
+import numpy as np
+import re
+from scipy import linalg, ndimage
+import scipy.ndimage
+from six.moves import range
+import os
+import threading
+import SimpleITK as sitk
+
 # if backend == 'pytorch'
 #     self.channel_index = 1
 #     self.dep_index = 2
@@ -72,7 +81,7 @@ def apply_transform(x, transform_matrix, channel_index=0, fill_mode='nearest', c
     x = np.rollaxis(x, channel_index, 0)
     final_affine_matrix = transform_matrix[:3, :3]
     final_offset = transform_matrix[:3, 3]
-    channel_images = [ndi.interpolation.affine_transform(x_channel, final_affine_matrix,
+    channel_images = [scipy.ndimage.interpolation.affine_transform(x_channel, final_affine_matrix,
                       final_offset, order=0, mode=fill_mode, cval=cval) for x_channel in x]
     x = np.stack(channel_images, axis=0)
     x = np.rollaxis(x, 0, channel_index+1)
