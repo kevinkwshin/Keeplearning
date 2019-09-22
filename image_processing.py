@@ -153,13 +153,13 @@ def label_crop_nonzero_slice(dimension,image,mask,*args):
     return image,mask,args[0]
 
 def label_crop_curriculum(image,mask,crop_shape):
-    # input shape
-    
+    """
+    original_shape = image.shape
+    D,H,W = crop_shape
+    """
     image_ = image.copy()
     mask_ = mask.copy()
     mask_[mask_!=0]=0
-#     original_shape = image.shape
-#     D,H,W = crop_shape
     orig_D, orig_H, orig_W = image.shape
     crop_D, crop_H, crop_W = crop_shape
     
