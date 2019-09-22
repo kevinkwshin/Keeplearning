@@ -314,7 +314,7 @@ def label_onehotDecoding_without0(label_onehot,backend='keras'):
             
     return label
 
-def label_getCentroid(label):
+def label_coordinate_getCentroid(label):
     """Input Label should be binary and numpy array"""
     
     count= len(np.argwhere(label == 1))
@@ -327,6 +327,15 @@ def label_getCentroid(label):
     elif len(label.shape)==3:
         center_depth,center_height, center_width = np.argwhere(label == 1).sum(0)/count
         return center_depth,center_height, center_width
+    
+    
+def label_coordinate_3Dminmax(inputs):
+    """
+    return : (min), (max)
+    """
+    x_min,y_min,z_min = np.unravel_index(np.argmin(inputs),inputs.shape)
+    x_max,y_max,z_max = np.unravel_index(np.argmax(inputs),inputs.shape)
+    return (x_min,y_min,z_min), (x_max,y_max,z_max)
     
 def label_RemoveNonLabeledSlice(image,label,reference_label):
     """
