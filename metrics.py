@@ -4,7 +4,7 @@ import torch.nn.functional as F
 from scipy import spatial
 import numpy as np
 
-def numeric_score(groundtruth,prediction):
+def score_numeric(groundtruth,prediction):
     """Computation of statistical numerical scores:
     * FP = False Positives
     * FN = False Negatives
@@ -52,7 +52,7 @@ def score_precision(groundtruth,prediction):
     Reference
     https://en.wikipedia.org/wiki/Receiver_operating_characteristic
     '''
-    FP, FN, TP, TN = numeric_score(groundtruth,prediction)
+    FP, FN, TP, TN = score_numeric(groundtruth,prediction)
     if (TP + FP) <= 0.0:
         return 0.0
 
@@ -64,7 +64,7 @@ def score_recall(groundtruth,prediction):
     Reference
     https://en.wikipedia.org/wiki/Receiver_operating_characteristic
     '''
-    FP, FN, TP, TN = numeric_score(groundtruth,prediction)
+    FP, FN, TP, TN = score_numeric(groundtruth,prediction)
     if (TP + FN) <= 0.0:
         return 0.0
     TPR = np.divide(TP, TP + FN)
@@ -75,7 +75,7 @@ def score_specificity(groundtruth,prediction):
     Reference
     https://en.wikipedia.org/wiki/Receiver_operating_characteristic
     '''
-    FP, FN, TP, TN = numeric_score(groundtruth,prediction)
+    FP, FN, TP, TN = score_numeric(groundtruth,prediction)
     if (TN + FP) <= 0.0:
         return 0.0
     TNR = np.divide(TN, TN + FP)
@@ -86,7 +86,7 @@ def score_iou(groundtruth,prediction):
     Reference
     https://en.wikipedia.org/wiki/Receiver_operating_characteristic
     '''
-    FP, FN, TP, TN = numeric_score(groundtruth,prediction)
+    FP, FN, TP, TN = score_numeric(groundtruth,prediction)
     if (TP + FP + FN) <= 0.0:
         return 0.0
     return TP / (TP + FP + FN) * 100.0
@@ -96,7 +96,7 @@ def score_accuracy(groundtruth,prediction):
     Reference
     https://en.wikipedia.org/wiki/Receiver_operating_characteristic
     '''
-    FP, FN, TP, TN = numeric_score(groundtruth,prediction)
+    FP, FN, TP, TN = score_numeric(groundtruth,prediction)
     N = FP + FN + TP + TN
     TNR = np.divide(TP + TN, N)
     return TNR * 100.0
@@ -106,7 +106,7 @@ def score_f1(groundtruth,prediction):
     Reference
     https://en.wikipedia.org/wiki/Receiver_operating_characteristic
     '''
-    FP, FN, TP, TN = numeric_score(groundtruth,prediction)
+    FP, FN, TP, TN = score_numeric(groundtruth,prediction)
     N = 2*TP + FP + FN
     TNR = np.divide(2*TP, N)
     return TNR * 100.0
