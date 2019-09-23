@@ -124,6 +124,7 @@ def metric_scores_summary(groundtruth,prediction,threshold=False,print_score=Fal
     !!! All values should be onehot endcoded !!!
     - threshold : if no need to get threshold, threshold = False
     - print_score : option for printing metrics
+    - return : dice,precision,recall,specificity,iou,accuracy
     """
     if threshold != False:
         prediction = threshold_predictions(prediction,threshold)
