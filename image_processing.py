@@ -335,7 +335,7 @@ def label_coordinate_3Dminmax(inputs):
     """
     coord1_min,coord2_min,coord3_min = np.unravel_index(np.argmin(inputs),inputs.shape)
     coord1_max,coord2_max,coord3_max = np.unravel_index(np.argmax(inputs),inputs.shape)
-    return (coord1_min,coord2_min,coord3_min), (coord1_max,coord2_max,coord3_max)
+    return coord1_min,coord2_min,coord3_min,coord1_max,coord2_max,coord3_max
     
 def label_RemoveNonLabeledSlice(image,label,reference_label):
     """
