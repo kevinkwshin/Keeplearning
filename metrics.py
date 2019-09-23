@@ -21,19 +21,19 @@ def score_numeric(groundtruth,prediction):
     TN = np.float(np.sum((prediction == 0) & (groundtruth == 0)))
     return FP, FN, TP, TN
 
-def score_dice(groundtruth,prediction):
-    '''
-    Dice Similarity Coefficient (=F1 Score)
+# def score_dice(groundtruth,prediction):
+#     '''
+#     Dice Similarity Coefficient (=F1 Score)
 
-    Reference
-    https://en.wikipedia.org/wiki/Receiver_operating_characteristic
-    '''
-    pflat = prediction.flatten()
-    gflat = groundtruth.flatten()
-    d = (1 - spatial.distance.dice(pflat, gflat)) * 100.0
-    if np.isnan(d):
-        return 0.0
-    return d
+#     Reference
+#     https://en.wikipedia.org/wiki/Receiver_operating_characteristic
+#     '''
+#     pflat = prediction.flatten()
+#     gflat = groundtruth.flatten()
+#     d = (1 - spatial.distance.dice(pflat, gflat)) * 100.0
+#     if np.isnan(d):
+#         return 0.0
+#     return d
 
 def score_jaccard(groundtruth,prediction):
     '''
@@ -101,8 +101,10 @@ def score_accuracy(groundtruth,prediction):
     TNR = np.divide(TP + TN, N)
     return TNR * 100.0
 
-def score_f1(groundtruth,prediction):
+def score_dice(groundtruth,prediction):
     '''
+    Dice Similarity Coefficient (=F1 Score)
+    
     Reference
     https://en.wikipedia.org/wiki/Receiver_operating_characteristic
     '''
