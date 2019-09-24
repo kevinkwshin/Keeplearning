@@ -8,7 +8,7 @@ from skimage import measure
 
 def z_normalization(img, num_channels):
     """
-    z_normalization
+    z_normalization test
     """
     for i in range(num_channels):
         img[..., i] -= np.mean(img[..., i])
