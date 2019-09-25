@@ -182,12 +182,11 @@ def label_crop_curriculum(image,mask,crop_shape):
     
     return image_,mask_
 
-def label_voxelRemovalExcept1Cluster(inputs):
-    # Tensorflow 5D tensor (img_dep,img_cols,img_rows,img_channel)
-    # Pytorch 5D tensor (img_channel,img_dep,img_cols,img_rows)
+def label_voxelRemovalExcept1Cluster(inputs,backend='keras'):
     """
-    label_voxel remover for 4D tensor [...,class]
-    Remove noise except 1 main voxel    
+    TODO : pytorch version is not avaiable!!
+    label_voxel remover for 4D tensor [...,class] for keras
+    Remove noise except 1 main voxel
     """
     outputs = np.zeros((inputs.shape[0],inputs.shape[1],inputs.shape[2],inputs.shape[3]))
     
@@ -209,9 +208,7 @@ def label_voxelRemovalExcept1Cluster(inputs):
     return outputs
 
 def label_onehotEncoding(label,num_class,backend='keras'):
-    """
-    !!! Must include background(0)
-    
+    """    
     backend='pytorch'
     #input shape  (value  0,1,2,...)   : (image_depth,image_height,image_width)
     #output shape (values 0,1) : (num_class+1,image_depth,image_height,image_width)
@@ -270,7 +267,7 @@ def label_onehotEncoding(label,num_class,backend='keras'):
 #     return label_onehot
 
 
-def label_onehotDecoding_argmax(label_onehot,backend='keras'):
+def label_onehotDecodingWithBackground(label_onehot,backend='keras'):
     """
     !!! Must include background(0)
     
@@ -291,7 +288,7 @@ def label_onehotDecoding_argmax(label_onehot,backend='keras'):
           indices = np.argmax(label_onehot,-1).astype('float32') # 0 for channel
     return indices
 
-def label_onehotDecoding_without0(label_onehot,backend='keras'):
+def label_onehotDecodingWithoutBackground(label_onehot,backend='keras'):
     """
     !!! Must not include background(0)
     """
@@ -314,7 +311,7 @@ def label_onehotDecoding_without0(label_onehot,backend='keras'):
             
     return label
 
-def label_coordinate_getCentroid(label):
+def label_coordinateGetCentroid(label):
     """Input Label should be binary and numpy array"""
     
     count= len(np.argwhere(label == 1))
@@ -329,7 +326,7 @@ def label_coordinate_getCentroid(label):
         return center_depth,center_height, center_width
     
     
-def label_coordinate_3Dminmax(inputs):
+def label_coordinate3DMinMax(inputs):
     """
     return : (min), (max)
     """
