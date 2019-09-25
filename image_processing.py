@@ -51,7 +51,7 @@ def image_preprocess_CT_uint8(img):
     img /= (2**12-1)
     return img
 
-def image_resize_3D(data, img_dep=200., img_rows=200., img_cols=200.): # 3D image
+def image_resize3D(data, img_dep=200., img_rows=200., img_cols=200.): # 3D image
     """
     Resizer for 3D image
     """
@@ -59,7 +59,7 @@ def image_resize_3D(data, img_dep=200., img_rows=200., img_cols=200.): # 3D imag
     data = ndimage.zoom(data, resize_factor, order=0, mode='constant', cval=0.0)
     return data
 
-def label_resize_3D(data, img_dep=200., img_rows=200., img_cols=200.): # 3D image
+def label_resize3D(data, img_dep=200., img_rows=200., img_cols=200.): # 3D image
     """
     Resizer for 3D image
     """
@@ -90,8 +90,9 @@ def image_windowing(img, ww=1800, wl=400):
 
 def image_save_nii(data,path):
     """
-    # inpt shape  : (data)
-    # output shape : (data)
+    A quick array saving function into nii or nii.gz
+    - input shape  : (data)
+    - output shape : (data)
     """
     data_nii = np.transpose(data)
     output = nib.Nifti1Image(data_nii, affine=np.eye(4))
