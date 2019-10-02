@@ -364,3 +364,22 @@ def dataset_buildNearByStack_3ch(image):
     image = np.concatenate((image_top,image_middle,image_bottom),axis=-1)
     return image
 
+
+def label_thresholdEachChannel(data,threshold_array,backend='keras'):
+    # input shape : (...,channel)
+    # output shape : (...,channel)
+    if backend == 'keras':
+        if len(data.shape[-1])!=len(threshold_array):
+            print('not proper input array')
+
+        for idx_channel in range(data.shape[-1]):
+
+            data_temp = data[...,idx_channel].copy()
+            data_temp[data_temp< threshold_array[idx_channel]] = 0
+            data_temp[data_temp>=threshold_array[idx_channel]] = 1
+
+            data[...,idx_channel] = data_temp
+    else:
+        print('pytorch version not available')
+        
+    return data
