@@ -37,7 +37,7 @@ def data_load_dicom(path,return_info=False,return_array=True):
         image = sitk.GetArrayFromImage(image)
         
     if return_info == True:
-        return image,spacing,origin
+        return image,origin,spacing
     else:
         return image
     
