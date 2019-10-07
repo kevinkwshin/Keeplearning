@@ -6,7 +6,7 @@ def data_load_nii(path,return_info=False,return_array=True):
     """
     Parameter
     - path
-    - return_info : If True, return will be image,spacing,origin
+    - return_info : If True, return will be image,origin,spacing
     - return_array : Generally we return to array.
     """
     image = sitk.ReadImage(path)
@@ -19,7 +19,7 @@ def data_load_nii(path,return_info=False,return_array=True):
         image = sitk.GetArrayFromImage(image).astype('float32')
 
     if return_info == True:
-        return image,spacing,origin
+        return image,origin,spacing
     else:
         return image
 
