@@ -28,11 +28,6 @@ def image_preprocess_float(x,x_cutoff_max=98,x_cutoff_min=2):
     x_max = np.percentile(x, x_cutoff_max)
     x_min = np.percentile(x, x_cutoff_min)    
     
-    if x_min
-    x[x < -1024] = -1024.
-    x[x >= 3071] = 3071.
-    x += 1024.
-    
     x = (x - x_min) / (x_max - x_min)
     x = x.clip(0, 1)
     return x
