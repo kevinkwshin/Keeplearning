@@ -24,6 +24,23 @@ def image_preprocess_float(x,x_cutoff_max=98,x_cutoff_min=2):
     """
     Scale image to range 0..1 for correct plot
     """
+    
+    x_max = np.percentile(x, x_cutoff_max)
+    x_min = np.percentile(x, x_cutoff_min)    
+    
+    if x_min
+    x[x < -1024] = -1024.
+    x[x >= 3071] = 3071.
+    x += 1024.
+    
+    x = (x - x_min) / (x_max - x_min)
+    x = x.clip(0, 1)
+    return x
+
+def image_preprocess_CT_float(x,x_cutoff_max=98,x_cutoff_min=2):
+    """
+    Scale image to range 0..1 for correct plot
+    """
     x_max = np.percentile(x, x_cutoff_max)
     x_min = np.percentile(x, x_cutoff_min)    
     x = (x - x_min) / (x_max - x_min)
@@ -67,15 +84,22 @@ def label_resize3D(data, img_dep=200., img_rows=200., img_cols=200.): # 3D image
     data = ndimage.zoom(data, resize_factor, order=0, mode='nearest', cval=0.0)
     return data
 
-def image_windowing(img, ww=1800, wl=400):
+def image_windowing_CT(img, ww=1800, wl=400):
     """
     preprocessing for CT image (medical)
     Parameters
     - img shape [width, height, depth] <- 3D
     - ww & wl: bone preset
     """
+    
     maxp = np.max(img)
     minp = np.min(img)
+    
+    if minp >=0:
+        img=img
+    else:
+        img[img < -1024] = -1024.
+        img[img >= 3071] = 3071.
 
     a = wl - (ww/2)
     b = wl + (ww/2)
