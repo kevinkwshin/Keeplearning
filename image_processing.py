@@ -5,7 +5,6 @@ import nibabel as nib
 from scipy import ndimage
 from skimage import measure
 
-
 def z_normalization(img, num_channels):
     """
     z_normalization test
@@ -15,7 +14,7 @@ def z_normalization(img, num_channels):
         img[..., i] /= np.std(img[..., i])
     return img
 
-def sample_z_norm(data, mean=0.174634420286961, sd=0.11619528340846214):
+def sample_z_norm(data, mean, sd):
     data -= mean
     data /= sd
     return data
@@ -24,23 +23,23 @@ def image_preprocess_float(x,x_cutoff_max=98,x_cutoff_min=2):
     """
     Scale image to range 0..1 for correct plot
     """
-    
     x_max = np.percentile(x, x_cutoff_max)
     x_min = np.percentile(x, x_cutoff_min)    
     
     x = (x - x_min) / (x_max - x_min)
+#     x = x.clip(0, 1).astype('float32')
     x = x.clip(0, 1)
     return x
 
-def image_preprocess_CT_float(x,x_cutoff_max=98,x_cutoff_min=2):
-    """
-    Scale image to range 0..1 for correct plot
-    """
-    x_max = np.percentile(x, x_cutoff_max)
-    x_min = np.percentile(x, x_cutoff_min)    
-    x = (x - x_min) / (x_max - x_min)
-    x = x.clip(0, 1)
-    return x
+# def image_preprocess_CT_float(x,x_cutoff_max=98,x_cutoff_min=2):
+#     """
+#     Scale image to range 0..1 for correct plot
+#     """
+#     x_max = np.percentile(x, x_cutoff_max)
+#     x_min = np.percentile(x, x_cutoff_min)    
+#     x = (x - x_min) / (x_max - x_min)
+#     x = x.clip(0, 1)
+#     return x
 
 def image_preprocess_uint8(x,x_cutoff_max=98,x_cutoff_min=2):
     """
@@ -57,9 +56,10 @@ def image_preprocess_CT_uint8(img):
     """
     Convert CT image array in HU into 0~255 uint
     """
-    img[img < -1024] = -1024.
-    img[img >= 3071] = 3071.
-    img += 1024.
+    if np.min(img)<0:
+        img[img < -1024] = -1024.
+        img[img >= 3071] = 3071.
+        img += 1024.
     img /= (2**12-1)
     return img
 
@@ -91,7 +91,7 @@ def image_windowing_CT(img, ww=1800, wl=400):
     minp = np.min(img)
     
     if minp >=0:
-        img=img
+        img=img - 1024
     else:
         img[img < -1024] = -1024.
         img[img >= 3071] = 3071.
@@ -121,7 +121,8 @@ from skimage.transform import resize
 def image_resample_array(src_imgs, src_spacing, target_spacing):
 
     src_spacing = np.round(src_spacing, 3)
-    target_shape = [int(src_imgs.shape[ix] * src_spacing[::-1][ix] / target_spacing[::-1][ix]) for ix in range(len(src_imgs.shape))]
+    target_shape = [int(src_imgs.shape[ix] * src_spacing[::-1][ix] / target_spacing[::-1][ix]) 
+                    for ix in range(len(src_imgs.shape))]
     for i in range(len(target_shape)):
         try:
             assert target_shape[i] > 0
@@ -135,7 +136,7 @@ def image_resample_array(src_imgs, src_spacing, target_spacing):
 
 def label_binary_dilation(x, radius=3): # 확장
     """ Return fast binary morphological dilation of an image.
-    see `skimage.morphology.binary_dilation <http://scikit-image.org/docs/dev/api/skimage.morphology.html#skimage.morphology.binary_dilation>`_.
+    see `skimage.morphology.binary_dilation'
 
     Parameters
     -----------
