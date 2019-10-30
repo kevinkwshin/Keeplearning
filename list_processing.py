@@ -19,9 +19,10 @@ def list_sort_nicely(l):
     l.sort(key=alphanum_key)
     return l
 
-def list_shuffle(list1,list2):
+def list_shuffle(list1,list2,seed=1):
     
     combined = list(zip(list1,list2))
+    random.seed(seed)
     random.shuffle(combined)
     list1,list2 = zip(*combined)
     list1 = list(list1)
