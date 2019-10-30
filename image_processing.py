@@ -25,10 +25,13 @@ def image_preprocess_float(x,x_cutoff_max=98,x_cutoff_min=2):
     """
     x_max = np.percentile(x, x_cutoff_max)
     x_min = np.percentile(x, x_cutoff_min)    
-    
-    x = (x - x_min) / (x_max - x_min)
-#     x = x.clip(0, 1).astype('float32')
-    x = x.clip(0, 1)
+    if x_max - x_min != 0:
+        x = (x - x_min) / (x_max - x_min)
+        x = x.clip(0, 1).astype('float32')
+    #     x = x.clip(0, 1)
+#         return x
+    elif x_max - x_min == 0:
+        x =0
     return x
 
 # def image_preprocess_CT_float(x,x_cutoff_max=98,x_cutoff_min=2):
