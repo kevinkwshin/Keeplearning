@@ -68,7 +68,11 @@ def score_recall(groundtruth,prediction):
     if (TP + FN) <= 0.0:
         return 0.0
     TPR = np.divide(TP, TP + FN)
-    return TPR * 100.0
+#     return TPR * 100.0
+    if TN + FP!=0:
+        return TPR * 100.0
+    elif TN + FP==0:
+        return 0
 
 def score_specificity(groundtruth,prediction):
     '''
@@ -79,7 +83,11 @@ def score_specificity(groundtruth,prediction):
     if (TN + FP) <= 0.0:
         return 0.0
     TNR = np.divide(TN, TN + FP)
-    return TNR * 100.0
+    
+    if TN + FP!=0:
+        return TNR * 100.0
+    elif TN + FP==0:
+        return 0
 
 def score_iou(groundtruth,prediction):
     '''
@@ -99,7 +107,10 @@ def score_accuracy(groundtruth,prediction):
     FP, FN, TP, TN = score_numeric(groundtruth,prediction)
     N = FP + FN + TP + TN
     TNR = np.divide(TP + TN, N)
-    return TNR * 100.0
+    if N!=0:
+        return TNR * 100.0
+    elif N==0:
+        return 0
 
 def score_dice(groundtruth,prediction):
     '''
@@ -111,8 +122,11 @@ def score_dice(groundtruth,prediction):
     FP, FN, TP, TN = score_numeric(groundtruth,prediction)
     N = 2*TP + FP + FN
     TNR = np.divide(2*TP, N)
-    return TNR * 100.0
-
+    if N!=0:
+        return TNR * 100.0
+    elif N==0:
+        return 0
+    
 def threshold_predictions(predictions, threshold=0.5):
     thresholded_preds = predictions[:]
     low_values_indices = thresholded_preds < threshold
