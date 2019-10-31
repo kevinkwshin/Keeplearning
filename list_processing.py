@@ -30,6 +30,19 @@ def list_shuffle(list1,list2,seed=1):
     
     return list1, list2
 
+# def list_shuffle(LISTS,seed=1):
+#     """
+#     LISTS = ([0,1],[1,0]) or ((0,1),(1,0))
+#     """
+#     combined = list(zip(list1,list2))
+#     random.seed(seed)
+#     random.shuffle(combined)
+#     list1,list2 = zip(*combined)
+#     list1 = list(list1)
+#     list2 = list(list2)
+    
+#     return LISTS
+
 def list_split_train(list1,list2,rate=0.4):
     
     x_train_  = list1[:-int(len(list1)*rate)]
