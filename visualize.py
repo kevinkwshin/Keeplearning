@@ -63,7 +63,7 @@ def plot_auc_roc(label,pred):
     ax.plot(fpr, tpr, label='ROC curve (area = %0.2f)' % roc_auc)
     ax.plot([0, 1], [0, 1], 'k--')
     ax.set_xlim([0.0, 1.0])
-    ax.set_ylim([0.0, 1.05])
+    ax.set_ylim([0.0, 1.0])
     ax.set_xlabel('False Positive Rate')
     ax.set_ylabel('True Positive Rate')
     ax.set_title('Receiver operating characteristic')
