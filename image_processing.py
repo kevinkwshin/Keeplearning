@@ -4,6 +4,7 @@ import SimpleITK as sitk
 import nibabel as nib
 from scipy import ndimage
 from skimage import measure
+from skimage.measure import label, regionprops
 
 def z_normalization(img, num_channels):
     """
