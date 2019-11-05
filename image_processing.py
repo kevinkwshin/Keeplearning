@@ -406,3 +406,25 @@ def label_thresholdEachChannel(data,threshold_array,backend='keras'):
         print('pytorch version not available')
         
     return data
+
+def label_getROIs(mask, ignoring_pixel=200, plot_image=False):
+    """
+    return [(min_height, min_width, max_height, max_width)]
+    """
+    
+    mask_labeled, mask_count = label(mask,return_num=True)
+    
+    if plot_image:
+        fig, ax1 = plt.subplots()
+    ROIs = []
+    for region in regionprops(mask_labeled):
+        if region.area >= ignoring_pixel:
+            min_height, min_width, max_height, max_width = region.bbox
+            rect = mpatches.Rectangle((min_width, min_height), max_width - min_width, max_height - min_height,
+                                      fill=False, edgecolor='red', linewidth=1)
+            ROIs.append((min_height, min_width, max_height, max_width))
+
+            if plot_image:
+                ax1.imshow(mask)
+                ax1.add_patch(rect)
+    return ROIs
