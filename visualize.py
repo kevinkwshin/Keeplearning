@@ -13,7 +13,6 @@ from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
 from sklearn.metrics import roc_auc_score, auc, roc_curve
-
 def plot_confusion_matrix(y_true, y_pred,
                           classes,
                           reverse=False,
@@ -27,7 +26,7 @@ def plot_confusion_matrix(y_true, y_pred,
     matplotlib.rc('font', **font)
     cm = confusion_matrix(y_true, y_pred)
 
-    if reverse == True:
+    if reverse == False:
         cm = cm[::-1,::-1]
 
     # to show the matrix in intuitive way
@@ -52,16 +51,16 @@ def plot_confusion_matrix(y_true, y_pred,
     fmt = '.2f'
     thresh = cm.max() / 2.
 
-    for j in range(cm.shape[1]):
-        for i in range(cm.shape[0]):
-          plt.text(j,i, format(cm[i, j], fmt)+'\n({})'.format(cm_origin[i,j]),
+    for i in range(cm.shape[0]):
+        for j in range(cm.shape[1]):
+            plt.text(j,i, format(cm[i, j], fmt)+'\n({})'.format(cm_origin[i,j]),
                   horizontalalignment="center",
                   verticalalignment="center",
                   color="white" if cm[i, j] > thresh else "black")
 
     cm = np.flipud(cm)
     return cm
-
+  
 def plot_auc_roc(label,pred):
     ground_truth_labels =label.ravel()
     score_value = pred.ravel()
