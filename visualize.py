@@ -7,6 +7,7 @@ from matplotlib.widgets import  RectangleSelector
 import matplotlib.patches as patches
 
 import itertools
+import matplotlib
 import matplotlib.pyplot as plt
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
