@@ -15,7 +15,6 @@ from sklearn.metrics import roc_auc_score, auc, roc_curve
 
 def plot_confusion_matrix(y_true, y_pred,
                           classes,
-                          normalize=False,
                           reverse=False,
                           title='Confusion matrix', cmap=plt.cm.Greens):
     """
@@ -33,9 +32,7 @@ def plot_confusion_matrix(y_true, y_pred,
     # to show the matrix in intuitive way
     cm = np.flipud(cm)
     cm_origin = cm.copy()
-    
-    if normalize:
-        cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+    cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
     
     plt.rcParams['xtick.bottom'] = plt.rcParams['xtick.labelbottom'] = False
     plt.rcParams['xtick.top'] = plt.rcParams['xtick.labeltop'] = True
@@ -51,7 +48,7 @@ def plot_confusion_matrix(y_true, y_pred,
     plt.ylim((tick_marks[0]-.5,tick_marks[1]+0.5))
     plt.title(title+'\n');plt.xlabel('Ground Truth');plt.ylabel('Predicted');
 
-    fmt = '.2f' if normalize else 'd'
+    fmt = '.2f'
     thresh = cm.max() / 2.
 
     for j in range(cm.shape[1]):
@@ -63,7 +60,6 @@ def plot_confusion_matrix(y_true, y_pred,
 
     cm = np.flipud(cm)
     return cm
-
 
 def plot_auc_roc(label,pred):
     ground_truth_labels =label.ravel()
