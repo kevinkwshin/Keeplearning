@@ -13,38 +13,56 @@ from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
 from sklearn.metrics import roc_auc_score, auc, roc_curve
 
-def plot_confusion_matrix(cm, classes, normalize=False, reverse=False,
-                          title='Confusion matrix', cmap=plt.cm.Oranges):
+def plot_confusion_matrix(y_true, y_pred,
+                          classes,
+                          normalize=False,
+                          reverse=False,
+                          title='Confusion matrix', cmap=plt.cm.Greens):
     """
     This function prints and plots the confusion matrix.
     Normalization can be applied by setting `normalize=True`.
     """
-    
+    font = {'weight' : 'normal','size' : 16}
+
+    matplotlib.rc('font', **font)
+    cm = confusion_matrix(y_true, y_pred)
+
     if reverse == True:
         cm = cm[::-1,::-1]
+
+    # to show the matrix in intuitive way
+    cm = np.flipud(cm)
     cm_origin = cm.copy()
     
     if normalize:
-        cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis];print("Normalized confusion matrix");
-    else:
-        print('Confusion matrix, without normalization')
+        cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
     
+    plt.rcParams['xtick.bottom'] = plt.rcParams['xtick.labelbottom'] = False
+    plt.rcParams['xtick.top'] = plt.rcParams['xtick.labeltop'] = True
+
+    fig, ax = plt.subplots(1,1,figsize=(6,6))
+    im = ax.imshow(cm, interpolation='nearest', cmap=cmap)
+    ax.figure.colorbar(im, ax=ax, pad=0.04)
+    ax.xaxis.set_ticks_position('top') # the rest is the same
+    ax.xaxis.set_label_position('top')
     tick_marks = np.arange(len(classes))
-    plt.imshow(cm, interpolation='nearest', cmap=cmap)
-    plt.title(title);plt.colorbar();
-    plt.xticks(tick_marks, classes, rotation=45);plt.yticks(tick_marks, classes);
+    plt.xticks(tick_marks, classes, ha='center');
+    plt.yticks(tick_marks, classes[::-1], va='center');
+    plt.ylim((tick_marks[0]-.5,tick_marks[1]+0.5))
+    plt.title(title+'\n');plt.xlabel('Ground Truth');plt.ylabel('Predicted');
 
     fmt = '.2f' if normalize else 'd'
     thresh = cm.max() / 2.
-    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
-        plt.text(j, i, format(cm[i, j], fmt)+'\n({})'.format(cm_origin[i,j]),
-                 horizontalalignment="center",
-                 verticalalignment="center",
-                 color="white" if cm[i, j] > thresh else "black")
 
-    plt.ylabel('True label')
-    plt.xlabel('Predicted label')
-    plt.tight_layout()
+    for j in range(cm.shape[1]):
+        for i in range(cm.shape[0]):
+          plt.text(j,i, format(cm[i, j], fmt)+'\n({})'.format(cm_origin[i,j]),
+                  horizontalalignment="center",
+                  verticalalignment="center",
+                  color="white" if cm[i, j] > thresh else "black")
+
+    cm = np.flipud(cm)
+    return cm
 
 
 def plot_auc_roc(label,pred):
