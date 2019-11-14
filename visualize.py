@@ -17,6 +17,7 @@ from sklearn.metrics import roc_auc_score, auc, roc_curve
 def plot_confusion_matrix(y_true, y_pred,
                           classes,
                           reverse=False,
+                          print_metric=False,
                           title='Confusion matrix', cmap=plt.cm.Greens):
     """
     This function prints and plots the confusion matrix.
@@ -59,8 +60,20 @@ def plot_confusion_matrix(y_true, y_pred,
                   horizontalalignment="center",
                   verticalalignment="center",
                   color="white" if cm[i, j] > thresh else "black")
+    
+    cm = np.flipud(cm)        
+    cm_origin = np.flipud(cm_origin)
+    if print_metric==True:
+        auc = roc_auc_score(y_true, y_pred)
+        # accuracy
+        acc = accuracy_score(y_true, y_pred)
+        #sensitivity
+        sensitivity = cm_origin[0,0]/(cm_origin[0,0]+cm_origin[1,0])
+        #specificity
+        specificity = cm_origin[1,1]/(cm_origin[0,1]+cm_origin[1,1])
+        plt.text(-.5,-1,'ACC :'+str(acc)[:4]+', SEN :'+str(sensitivity)[:4]+', SPE :'+str(specificity)[:4])
 
-    return np.flipud(cm_origin)
+    return cm_origin
   
 def plot_auc_roc(label,pred):
     ground_truth_labels =label.ravel()
