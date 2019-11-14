@@ -42,7 +42,7 @@ def plot_confusion_matrix(y_true, y_pred,
 
     fig, ax = plt.subplots(1,1,figsize=(6,6))
     im = ax.imshow(cm, interpolation='nearest', cmap=cmap)
-    ax.figure.colorbar(im, ax=ax, pad=0.04)
+    ax.figure.colorbar(im, ax=ax, pad=0.1)
     ax.xaxis.set_ticks_position('top') # the rest is the same
     ax.xaxis.set_label_position('top')
     tick_marks = np.arange(len(classes))
@@ -71,7 +71,7 @@ def plot_confusion_matrix(y_true, y_pred,
         sensitivity = cm_origin[0,0]/(cm_origin[0,0]+cm_origin[1,0])
         #specificity
         specificity = cm_origin[1,1]/(cm_origin[0,1]+cm_origin[1,1])
-        plt.text(-.5,-1,'ACC :'+str(acc)[:4]+', SEN :'+str(sensitivity)[:4]+', SPE :'+str(specificity)[:4])
+        plt.text(0,-1,'Accuracy : '+str(acc)[:4]+'\nSensitivity : '+str(sensitivity)[:4]+'\nSpecificity : '+str(specificity)[:4])
 
     return cm_origin
   
