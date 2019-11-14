@@ -26,13 +26,12 @@ def plot_confusion_matrix(y_true, y_pred,
 
     matplotlib.rc('font', **font)
     cm = confusion_matrix(y_true, y_pred)
-    print(cm)
 
     if reverse == True:
         cm = cm[::-1,::-1]
 
     # to show the matrix in intuitive way
-    # cm = np.transpose(cm)
+    cm = np.transpose(cm)
     cm = np.flipud(cm)
     cm_origin = cm.copy()
     cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
