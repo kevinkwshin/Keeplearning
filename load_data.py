@@ -47,7 +47,7 @@ def data_save_itk(image, origin, spacing, filename='image.nii.gz'):
     You need need get origin & spacing data.
     Use load_nii(image_path,return_info=True) function to get origin & spacing data.
     """
-    image = np.flip(image,1)
+#     image = np.flip(image,1)
     itkimage = sitk.GetImageFromArray(image)
     itkimage.SetSpacing(spacing)
     itkimage.SetOrigin(origin)
