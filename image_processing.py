@@ -413,7 +413,7 @@ def label_getROIs(mask, ignoring_pixel=200, plot_image=False):
     """
     return [(min_height, min_width, max_height, max_width)]
     """
-    
+    mask = label_threshold(mask)
     mask_labeled, mask_count = label(mask,return_num=True)
     
     if plot_image:
