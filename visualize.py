@@ -40,7 +40,7 @@ def plot_confusion_matrix(y_true, y_pred,
     plt.rcParams['xtick.bottom'] = plt.rcParams['xtick.labelbottom'] = False
     plt.rcParams['xtick.top'] = plt.rcParams['xtick.labeltop'] = True
 
-    fig, ax = plt.subplots(1,1,figsize=(8,6))
+    fig, ax = plt.subplots(1,1,figsize=(8,8))
     im = ax.imshow(cm, interpolation='nearest', cmap=cmap)
     ax.figure.colorbar(im, ax=ax, pad=0.1)
     ax.xaxis.set_ticks_position('top') # the rest is the same
