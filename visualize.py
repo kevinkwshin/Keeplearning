@@ -50,6 +50,8 @@ def plot_confusion_matrix(y_true, y_pred,
     plt.yticks(tick_marks, classes[::-1], va='center');
     plt.ylim((tick_marks[0]-.5,tick_marks[1]+0.5))
     plt.title(title+'\n');plt.xlabel('Ground Truth');plt.ylabel('Predicted');
+#     plt.pcolor(X, Y, v, cmap=cm)
+    plt.clim(0,1)  # identical to caxis([-4,4]) in MATLAB
 
     fmt = '.2f'
     thresh = cm.max() / 2.
