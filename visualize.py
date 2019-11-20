@@ -23,7 +23,7 @@ def plot_confusion_matrix(y_true, y_pred,
     This function prints and plots the confusion matrix.
     Normalization can be applied by setting `normalize=True`.
     """
-    font = {'weight' : 'normal','size' : 16}
+    font = {'weight' : 'normal','size' : 22}
 
     matplotlib.rc('font', **font)
     cm = confusion_matrix(y_true, y_pred)
@@ -40,9 +40,10 @@ def plot_confusion_matrix(y_true, y_pred,
     plt.rcParams['xtick.bottom'] = plt.rcParams['xtick.labelbottom'] = False
     plt.rcParams['xtick.top'] = plt.rcParams['xtick.labeltop'] = True
 
-    fig, ax = plt.subplots(1,1,figsize=(8,8))
+    fig, ax = plt.subplots(1,1,figsize=(9,8))
     im = ax.imshow(cm, interpolation='nearest', cmap=cmap)
-    ax.figure.colorbar(im, ax=ax, pad=0.1)
+    ax.figure.colorbar(im, ax=ax, fraction=0.046, pad=0.04)
+    im.set_clim(0,1)
     ax.xaxis.set_ticks_position('top') # the rest is the same
     ax.xaxis.set_label_position('top')
     tick_marks = np.arange(len(classes))
@@ -50,8 +51,6 @@ def plot_confusion_matrix(y_true, y_pred,
     plt.yticks(tick_marks, classes[::-1], va='center');
     plt.ylim((tick_marks[0]-.5,tick_marks[1]+0.5))
     plt.title(title+'\n');plt.xlabel('Ground Truth');plt.ylabel('Predicted');
-#     plt.pcolor(X, Y, v, cmap=cm)
-    plt.clim(0,1)  # identical to caxis([-4,4]) in MATLAB
 
     fmt = '.2f'
     thresh = cm.max() / 2.
@@ -65,6 +64,7 @@ def plot_confusion_matrix(y_true, y_pred,
     
     cm = np.flipud(cm)        
     cm_origin = np.flipud(cm_origin)
+
     if print_metric==True:
         auc = roc_auc_score(y_true, y_pred)
         # accuracy
@@ -73,10 +73,11 @@ def plot_confusion_matrix(y_true, y_pred,
         sensitivity = cm_origin[0,0]/(cm_origin[0,0]+cm_origin[1,0])
         #specificity
         specificity = cm_origin[1,1]/(cm_origin[0,1]+cm_origin[1,1])
-        plt.text(0,-1,'Accuracy : '+str(acc)[:4]+'\nSensitivity : '+str(sensitivity)[:4]+'\nSpecificity : '+str(specificity)[:4])
+
+        plt.text(0.15,-.85,'Accuracy : '+str(acc)[:4]+'\nSensitivity : '+str(sensitivity)[:4]+'\nSpecificity : '+str(specificity)[:4])
 
     return cm_origin
-  
+
 def plot_auc_roc(label,pred):
     ground_truth_labels =label.ravel()
     score_value = pred.ravel()
