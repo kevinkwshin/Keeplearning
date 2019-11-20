@@ -160,6 +160,7 @@ def label_threshold(data,threshold=0.5):
     """
     threholds
     """
+    data = data.copy()
     data[data<=threshold]=0
     data[data>threshold] =1
     return data
