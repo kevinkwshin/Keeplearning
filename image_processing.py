@@ -79,11 +79,12 @@ def image_resize3D(data, img_dep=200., img_rows=200., img_cols=200.): # 3D image
 def label_resize3D(data, img_dep, img_rows, img_cols, median_filter=False): # 3D image
     """
     Resizer for 3D image
+    median_filter --> when voxel spaing is greater x 5 
     """
     resize_factor = (img_dep/data.shape[0], img_rows/data.shape[1], img_cols/data.shape[2])
     data = ndimage.zoom(data, resize_factor, order=0, mode='nearest', cval=0.0)
     if median_filter==True:
-        data = ndimage.filters.median_filter(data,size=(1,7,7), mode='constant')
+        data = ndimage.filters.median_filter(data,size=(1,5,5), mode='constant')
     return data
 
 def image_windowing_CT(img, ww=1800, wl=400):
