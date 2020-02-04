@@ -82,7 +82,7 @@ def score_specificity(groundtruth,prediction):
     FP, FN, TP, TN = score_numeric(groundtruth,prediction)
     if (TN + FP) <= 0.0:
         return 0.0
-    TNR = np.divide(TN, TN + FP)
+    TNR = np.divide(TN, TN + FP +0.0000001)
     
     if TN + FP!=0:
         return TNR * 100.0
@@ -106,7 +106,7 @@ def score_accuracy(groundtruth,prediction):
     '''
     FP, FN, TP, TN = score_numeric(groundtruth,prediction)
     N = FP + FN + TP + TN
-    TNR = np.divide(TP + TN, N)
+    TNR = np.divide(TP + TN, N+0.0000001)
     if N!=0:
         return TNR * 100.0
     elif N==0:
@@ -121,7 +121,7 @@ def score_dice(groundtruth,prediction):
     '''
     FP, FN, TP, TN = score_numeric(groundtruth,prediction)
     N = 2*TP + FP + FN
-    TNR = np.divide(2*TP, N)
+    TNR = np.divide(2*TP, N+0.0000001)
     if N!=0:
         return TNR * 100.0
     elif N==0:
