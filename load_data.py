@@ -22,10 +22,16 @@ def data_load_nii(path,return_info=False,return_array=True):
         return image,origin,spacing
     else:
         return image
-
-def data_load_dicom(path,return_info=False,return_array=True):
+def data_load_dicom(path,series_idx=0,return_info=False,return_array=True):
+    """
+    path : path of folder
+    series_idx : in case multiple series are exist, you can choose idx
+    return_info : if True, return "image,origin,spacing"
+    return_array : if False, return SimpleITK format
+    """
     reader = sitk.ImageSeriesReader()
-    dicom_names = reader.GetGDCMSeriesFileNames(path)
+    series_ids = reader.GetGDCMSeriesIDs(path)
+    dicom_names = reader.GetGDCMSeriesFileNames(path,series_ids[series_idx])
     reader.SetFileNames(dicom_names)
     image = reader.Execute()
 
