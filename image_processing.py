@@ -21,22 +21,7 @@ def sample_z_norm(data, mean, sd):
     data /= sd
     return data
 
-def image_preprocess_float(x,x_cutoff_max=100,x_cutoff_min=0):
-    """
-    Scale image to range 0..1 for correct plot
-    """
-    x_max = np.percentile(x, x_cutoff_max)
-    x_min = np.percentile(x, x_cutoff_min)    
-    if x_max - x_min != 0:
-        x = (x - x_min) / (x_max - x_min)
-        x = x.clip(0, 1).astype('float32')
-    #     x = x.clip(0, 1)
-#         return x
-    elif x_max - x_min == 0:
-        x = np.zeros_like(x)
-    return x
-
-def image_preprocess_float_1to1(x,x_cutoff_max=100,x_cutoff_min=0):
+def image_CT_preprocess_float(x,x_cutoff_max=100,x_cutoff_min=0):
     """
     Scale image to range 0..1 for correct plot
     """
@@ -48,14 +33,12 @@ def image_preprocess_float_1to1(x,x_cutoff_max=100,x_cutoff_min=0):
     x_min = np.percentile(x, x_cutoff_min)    
     if x_max - x_min != 0:
         x = (x - x_min) / (x_max - x_min)
-        x = x.clip(-1, 1).astype('float32')
-    #     x = x.clip(0, 1)
-#         return x
+        x = x.clip(0, 1).astype('float32')
     elif x_max - x_min == 0:
         x = np.zeros_like(x)
     return x
 
-def image_preprocess_uint8(x,x_cutoff_max=98,x_cutoff_min=2):
+def image_preprocess_uint8(x,x_cutoff_max=100,x_cutoff_min=0):
     """
     Cut off & Convert image array into 0~255
     """
