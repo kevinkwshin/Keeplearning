@@ -40,6 +40,10 @@ def image_preprocess_float_1to1(x,x_cutoff_max=100,x_cutoff_min=0):
     """
     Scale image to range 0..1 for correct plot
     """
+    
+    x[x < -1024] = -1024.
+    x[x >= 3071] = 3071.
+    
     x_max = np.percentile(x, x_cutoff_max)
     x_min = np.percentile(x, x_cutoff_min)    
     if x_max - x_min != 0:
