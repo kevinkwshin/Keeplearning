@@ -33,7 +33,7 @@ def image_preprocess_float(x,x_cutoff_max=98,x_cutoff_min=2):
     #     x = x.clip(0, 1)
 #         return x
     elif x_max - x_min == 0:
-        x = np.zero_like(x)
+        x = np.zeros_like(x)
     return x
 
 # def image_preprocess_CT_float(x,x_cutoff_max=98,x_cutoff_min=2):
