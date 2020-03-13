@@ -127,6 +127,7 @@ def image_save_nii(data,path):
     - input shape  : (data)
     - output shape : (data)
     """
+    data = data.astype('float')
     data_nii = np.transpose(data)
     output = nib.Nifti1Image(data_nii, affine=np.eye(4))
     nib.save(output, path)
