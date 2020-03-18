@@ -25,9 +25,9 @@ def image_preprocess_float(x,x_cutoff_max=100,x_cutoff_min=0):
     """
     Scale image to range 0..1 for correct plot
     """
-    
     x_max = np.percentile(x, x_cutoff_max)
     x_min = np.percentile(x, x_cutoff_min)    
+    
     if x_max - x_min != 0:
         x = (x - x_min) / (x_max - x_min)
         x = x.clip(0, 1).astype('float32')
