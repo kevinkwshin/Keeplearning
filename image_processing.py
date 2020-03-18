@@ -42,13 +42,7 @@ def image_CT_preprocess_float(x,x_cutoff_max=100,x_cutoff_min=0):
     
     x_max = np.max(x)
     x_min = np.min(x)
-    
-    if minp >=0:
-        x=x - 1024
-    else:
-        x[x < -1024] = -1024.
-        x[x >= 3071] = 3071.
-        
+            
     if x_max - x_min != 0:
         x = (x - x_min) / (x_max - x_min)
         x = x.clip(0, 1).astype('float32')
