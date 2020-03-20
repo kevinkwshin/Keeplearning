@@ -3,6 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from scipy import spatial
 import numpy as np
+smooth = 1e-7
 
 def score_numeric(groundtruth,prediction):
     """Computation of statistical numerical scores:
@@ -53,10 +54,10 @@ def score_precision(groundtruth,prediction):
     https://en.wikipedia.org/wiki/Receiver_operating_characteristic
     '''
     FP, FN, TP, TN = score_numeric(groundtruth,prediction)
-    if (TP + FP) <= 0.0:
-        return 0.0
+#     if (TP + FP) <= 0.0:
+#         return 0.0
 
-    precision = np.divide(TP, TP + FP)
+    precision = np.divide(TP, TP + FP + smooth)
     return precision * 100.0
 
 def score_recall(groundtruth,prediction):
@@ -65,14 +66,11 @@ def score_recall(groundtruth,prediction):
     https://en.wikipedia.org/wiki/Receiver_operating_characteristic
     '''
     FP, FN, TP, TN = score_numeric(groundtruth,prediction)
-    if (TP + FN) <= 0.0:
-        return 0.0
-    TPR = np.divide(TP, TP + FN)
+#     if (TP + FN) <= 0.0:
+#         return 0.0
+    TPR = np.divide(TP, TP + FN + smooth)
 #     return TPR * 100.0
-    if TN + FP!=0:
-        return TPR * 100.0
-    elif TN + FP==0:
-        return 0
+    return TPR * 100.0
 
 def score_specificity(groundtruth,prediction):
     '''
@@ -80,14 +78,10 @@ def score_specificity(groundtruth,prediction):
     https://en.wikipedia.org/wiki/Receiver_operating_characteristic
     '''
     FP, FN, TP, TN = score_numeric(groundtruth,prediction)
-    if (TN + FP) <= 0.0:
-        return 0.0
-    TNR = np.divide(TN, TN + FP +0.0000001)
-    
-    if TN + FP!=0:
-        return TNR * 100.0
-    elif TN + FP==0:
-        return 0
+#     if (TN + FP) <= 0.0:
+#         return 0.0
+    TNR = np.divide(TN, TN + FP + smooth)
+    return TNR * 100.0
 
 def score_iou(groundtruth,prediction):
     '''
@@ -95,9 +89,9 @@ def score_iou(groundtruth,prediction):
     https://en.wikipedia.org/wiki/Receiver_operating_characteristic
     '''
     FP, FN, TP, TN = score_numeric(groundtruth,prediction)
-    if (TP + FP + FN) <= 0.0:
-        return 0.0
-    return TP / (TP + FP + FN) * 100.0
+#     if (TP + FP + FN) <= 0.0:
+#         return 0.0
+    return TP / (TP + FP + FN + smooth) * 100.0
 
 def score_accuracy(groundtruth,prediction):
     '''
@@ -106,11 +100,8 @@ def score_accuracy(groundtruth,prediction):
     '''
     FP, FN, TP, TN = score_numeric(groundtruth,prediction)
     N = FP + FN + TP + TN
-    TNR = np.divide(TP + TN, N+0.0000001)
-    if N!=0:
-        return TNR * 100.0
-    elif N==0:
-        return 0
+    TNR = np.divide(TP + TN, N + smooth)
+    return TNR * 100.0
 
 def score_dice(groundtruth,prediction):
     '''
@@ -121,11 +112,8 @@ def score_dice(groundtruth,prediction):
     '''
     FP, FN, TP, TN = score_numeric(groundtruth,prediction)
     N = 2*TP + FP + FN
-    TNR = np.divide(2*TP, N+0.0000001)
-    if N!=0:
-        return TNR * 100.0
-    elif N==0:
-        return 0
+    TNR = np.divide(2*TP, N + smooth)
+    return TNR * 100.0
     
 def threshold_predictions(predictions, threshold=0.5):
     thresholded_preds = predictions[:]
@@ -156,7 +144,7 @@ def metric_scores_summary(groundtruth,prediction,threshold=False,print_score=Fal
     if print_score==True:
         print("DSC {:.2f} PRECISION {:.2f} RECALL {:.2f} SPECIFICITY {:.2f} IOU {:.2f} ACCURACY {:.2f}".format(dice,precision,recall,specificity,iou,accuracy))
     
-    return dice,precision,recall,specificity,iou,accuracy
+    return dice, precision, recall, specificity, iou, accuracy
 
 def score_iouBox(a, b, epsilon=1e-5):
     """ Given two boxes `a` and `b` defined as a list of four numbers:
