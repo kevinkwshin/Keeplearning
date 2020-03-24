@@ -91,33 +91,48 @@ def label_resize3D(data, img_dep, img_rows, img_cols, median_filter=False): # 3D
         data = ndimage.filters.median_filter(data,size=(1,5,5), mode='constant')
     return data
 
-def image_windowing_CT(img, ww=1800, wl=400):
-    """
-    preprocessing for CT image (medical)
-    Parameters
-    - img shape [width, height, depth] <- 3D
-    - ww & wl: bone preset
-    """
+def image_windowing_CT(image, window_center, window_width):
+    img_min = window_center - window_width // 2
+    img_max = window_center + window_width // 2
+    window_image = image.copy()
+    window_image[window_image < img_min] = img_min
+    window_image[window_image > img_max] = img_max
     
-    maxp = np.max(img)
-    minp = np.min(img)
+    return window_image
+
+def image_remove_altifacts_forBrain(image, display=False):
     
-    if minp >=0:
-        img=img - 1024
-    else:
-        img[img < -1024] = -1024.
-        img[img >= 3071] = 3071.
+    image = image_windowing_CT(image, 40, 80)    
+    segmentation = morphology.dilation(image, np.ones((7, 7)))
+    labels, label_nb = ndimage.label(segmentation)    
+    label_count = np.bincount(labels.ravel().astype(np.int))
+    
+    label_count[0] = 0    
+    mask = labels == label_count.argmax()
+    mask = morphology.dilation(mask, np.ones((7, 7)))
+    mask = ndimage.morphology.binary_fill_holes(mask)
+    mask = morphology.dilation(mask, np.ones((3, 3)))
+    
+    masked_image = mask * image
 
-    a = wl - (ww/2)
-    b = wl + (ww/2)
-    slope = (maxp - minp)/ww
-    intercept = maxp - (slope*b)
+    if display:
+        plt.figure(figsize=(15, 2.5))
+        plt.subplot(141)
+        plt.imshow(image)#,cmap='gray')
+        plt.title('Original Image')
+        plt.axis('off')
+        
+        plt.subplot(142)
+        plt.imshow(mask)#,cmap='gray')
+        plt.title('Mask')
+        plt.axis('off')
 
-    img[img < a] = minp
-    img[img > b] = maxp
-    img = np.where((img >= a) & (img <= b),np.round(slope*img + intercept), img)
-
-    return img
+        plt.subplot(143)
+        plt.imshow(masked_image)#,cmap='gray')
+        plt.title('Final Image')
+        plt.axis('off')
+    
+    return mask
 
 def image_save_nii(data,path):
     """
