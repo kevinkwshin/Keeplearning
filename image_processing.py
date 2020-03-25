@@ -92,8 +92,15 @@ def label_resize3D(data, img_dep, img_rows, img_cols, median_filter=False): # 3D
     return data
 
 def image_windowing_CT(image, window_center, window_width):
+
+    if np.min(image)>=0:
+        image -= 1024
+    image[image < -1024] = -1024.
+    image[image >= 3071] = 3071.
+
     img_min = window_center - window_width // 2
     img_max = window_center + window_width // 2
+    
     window_image = image.copy()
     window_image[window_image < img_min] = img_min
     window_image[window_image > img_max] = img_max
