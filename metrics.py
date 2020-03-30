@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from scipy import spatial
 import numpy as np
-smooth = 1e-7
+smooth = 0
 
 def score_numeric(groundtruth,prediction):
     """Computation of statistical numerical scores:
