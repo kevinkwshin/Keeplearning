@@ -140,7 +140,7 @@ def metric_scores_summary(groundtruth,prediction,threshold=False,print_score=Fal
     specificity = score_specificity(groundtruth,prediction)
     iou = score_iou(groundtruth,prediction)
     accuracy = score_accuracy(groundtruth,prediction)
-    auc = roc_auc_score(groundtruth,prediction)
+#     auc = roc_auc_score(groundtruth,prediction)
 #     hausdorff = hausdorff_score(prediction, groundtruth)  # only work for 2D
 
     if print_score==True:
@@ -151,7 +151,6 @@ def metric_scores_summary(groundtruth,prediction,threshold=False,print_score=Fal
                'specificity':specificity,
                'iou':iou,
                'accuracy':accuracy,
-               'auc': auc,
               }
 
     return metrics
