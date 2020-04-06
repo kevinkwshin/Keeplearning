@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from scipy import spatial
+from sklearn.metrics import roc_auc_score
 import numpy as np
 smooth = 0
 
@@ -139,13 +140,22 @@ def metric_scores_summary(groundtruth,prediction,threshold=False,print_score=Fal
     specificity = score_specificity(groundtruth,prediction)
     iou = score_iou(groundtruth,prediction)
     accuracy = score_accuracy(groundtruth,prediction)
+    auc = roc_auc_score(groundtruth,prediction)
 #     hausdorff = hausdorff_score(prediction, groundtruth)  # only work for 2D
 
     if print_score==True:
         print("DSC {:.2f} PRECISION {:.2f} RECALL {:.2f} SPECIFICITY {:.2f} IOU {:.2f} ACCURACY {:.2f}".format(dice,precision,recall,specificity,iou,accuracy))
-    
-    return dice, precision, recall, specificity, iou, accuracy
+    metrics = {'dice':dice,
+               'precision':precision,
+               'recall':recall,
+               'specificity':specificity,
+               'iou':iou,
+               'accuracy':accuracy,
+               'auc': auc,
+              }
 
+    return metrics
+        
 def score_iouBox(a, b, epsilon=1e-5):
     """ Given two boxes `a` and `b` defined as a list of four numbers:
             [x1,y1,x2,y2]
