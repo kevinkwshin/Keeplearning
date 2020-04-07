@@ -4,7 +4,7 @@ import torch.nn.functional as F
 from scipy import spatial
 from sklearn.metrics import roc_auc_score
 import numpy as np
-smooth = 0
+smooth = 1e-6
 
 def score_numeric(groundtruth,prediction):
     """Computation of statistical numerical scores:
