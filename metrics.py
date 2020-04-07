@@ -145,12 +145,13 @@ def metric_scores_summary(groundtruth,prediction,threshold=False,print_score=Fal
 
     if print_score==True:
         print("DSC {:.2f} PRECISION {:.2f} RECALL {:.2f} SPECIFICITY {:.2f} IOU {:.2f} ACCURACY {:.2f}".format(dice,precision,recall,specificity,iou,accuracy))
-    metrics = {'dice':dice,
-               'precision':precision,
-               'recall':recall,
-               'specificity':specificity,
-               'iou':iou,
-               'accuracy':accuracy,
+    
+    metrics = {'dice':np.round(dice,2),
+               'precision':np.round(precision,2),
+               'recall':np.round(recall,2),
+               'specificity':np.round(specificity,2),
+               'iou':np.round(iou,2),
+               'accuracy':np.round(accuracy,2),
               }
 
     return metrics
