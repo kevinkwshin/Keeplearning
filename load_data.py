@@ -10,7 +10,7 @@ def data_load_nii(path):
     image = nib.load(path)
     image = image.get_fdata()
     image = np.transpose(image)
-    return image
+    return image.astype('float32')
 
 def data_load_nii_withSITK(path,return_info=False,return_array=True):
     """
