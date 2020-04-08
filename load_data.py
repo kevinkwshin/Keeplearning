@@ -2,7 +2,17 @@ import SimpleITK as sitk
 import nibabel as nib
 import numpy as np
 
-def data_load_nii(path,return_info=False,return_array=True):
+
+def data_load_nii(path):
+    """
+    Fast reading using nibabel
+    """
+    image = nib.load(path)
+    image = image.get_fdata()
+    image = np.transpose(image)
+return image
+
+def data_load_nii_withSITK(path,return_info=False,return_array=True):
     """
     Parameter
     - path
@@ -22,6 +32,7 @@ def data_load_nii(path,return_info=False,return_array=True):
         return image,origin,spacing
     else:
         return image
+    
 def data_load_dicom(path,series_idx=0,return_info=False,return_array=True):
     """
     path : path of folder
