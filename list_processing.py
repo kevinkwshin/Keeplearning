@@ -19,29 +19,16 @@ def list_sort_nicely(l):
     l.sort(key=alphanum_key)
     return l
 
-def list_shuffle(list1,list2,seed=1):
-    
-    combined = list(zip(list1,list2))
+def list_shuffle(*args):
+    """
+    LISTS = ([0,1],[1,0]) or ((0,1),(1,0))
+    """
+    seed=1
+    combined = list(zip(*args))
     random.seed(seed)
     random.shuffle(combined)
-    list1,list2 = zip(*combined)
-    list1 = list(list1)
-    list2 = list(list2)
-    
-    return list1, list2
 
-# def list_shuffle(LISTS,seed=1):
-#     """
-#     LISTS = ([0,1],[1,0]) or ((0,1),(1,0))
-#     """
-#     combined = list(zip(list1,list2))
-#     random.seed(seed)
-#     random.shuffle(combined)
-#     list1,list2 = zip(*combined)
-#     list1 = list(list1)
-#     list2 = list(list2)
-    
-#     return LISTS
+    return zip(*combined)
 
 def list_split_train(list1,list2,rate=0.4):
     
