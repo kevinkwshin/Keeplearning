@@ -461,3 +461,66 @@ def label_getROIs(mask, ignoring_pixel=200, plot_image=False):
                 ax1.imshow(mask)
                 ax1.add_patch(rect)
     return ROIs
+
+def label_binarySeg_secondLabel_FPFN(seg_gt, seg_pred, ignore_pxl_threshold, iou_threshold):
+    """
+    seg_gt, seg_pred should be 2D numpy array
+    """
+    
+    seg_total = seg_gt.copy() + seg_pred.copy()
+    seg_total[seg_total!=0.] = 1.
+    
+    #cluster
+    seg_gt_ROIs = label_getROIs(seg_gt, ignoring_pixel=ignore_pxl_threshold, plot_image=True)    
+    seg_preds_ROIs = label_getROIs(seg_pred,ignoring_pixel=ignore_pxl_threshold)
+    seg_total_ROIs = label_getROIs(seg_total,ignoring_pixel=ignore_pxl_threshold)
+    
+    TPs = []
+    FPs = []
+    FNs = []    
+    
+    for ROI in seg_total_ROIs:
+
+        y_min,x_min,y_max,x_max = ROI
+        
+        iou = score_dice(seg_gt[y_min:y_max,x_min:x_max], seg_pred[y_min:y_max,x_min:x_max])
+        iou_ = score_dice(seg_gt[y_min:y_max,x_min:x_max], seg_total[y_min:y_max,x_min:x_max])
+        iou__ = score_dice(seg_pred[y_min:y_max,x_min:x_max], seg_total[y_min:y_max,x_min:x_max])
+        
+        print(ROI,np.unique(seg_total[y_min:y_max,x_min:x_max],return_counts=True),np.unique(seg_gt[y_min:y_max,x_min:x_max],return_counts=True),np.unique(seg_pred[y_min:y_max,x_min:x_max],return_counts=True),)
+        
+        if iou > iou_threshold:
+            print('TP, label as 1')
+            TPs.append(ROI)
+        elif iou_ >0.5 :
+            print('FN, label as 1')
+            FNs.append(ROI)
+        elif iou__ >0.5:
+            print('FP, label as 1')
+            FPs.append(ROI)                
+        
+    TPs = list(dict.fromkeys(TPs))                
+    FPs = list(dict.fromkeys(FPs))                
+    FNs = list(dict.fromkeys(FNs))
+        
+    print('TP',TPs,'FP',FPs,'FN',FNs)
+    
+    for idx in range(len(FPs)):
+        y_min,x_min,y_max,x_max= FPs[idx]
+                
+        temp = seg_total.copy()
+        temp = temp[y_min:y_max,x_min:x_max]
+        
+        temp[temp!=0.] = 2.
+        seg_total[y_min:y_max,x_min:x_max] = temp
+        
+    for idx in range(len(FNs)):
+        y_min,x_min,y_max,x_max = FNs[idx]
+                
+        temp = seg_total.copy()
+        temp = temp[y_min:y_max,x_min:x_max]
+        
+        temp[temp!=0.] = 3.
+        seg_total[y_min:y_max,x_min:x_max] = temp
+    
+    return seg_total
