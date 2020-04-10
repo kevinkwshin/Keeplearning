@@ -442,19 +442,35 @@ def label_thresholdEachChannel(data,threshold_array,backend='keras'):
         
     return data
 
-def label_getROIs(mask, ignoring_pixel=200, plot_image=False):
+from skimage.measure import label, regionprops
+import matplotlib.patches as mpatches
+
+def label_getROIs(mask, ignoring_pixel=200, pad_ratio=0.2, plot_image=False):
     """
     return [(min_height, min_width, max_height, max_width)]
+    return [(y_min, x_min, y_max, x_max)]
     """
+    if type(mask)=='torch.Tensor':
+        mask = mask.numpy()
+        
     mask = label_threshold(mask)
     mask_labeled, mask_count = label(mask,return_num=True)
     
     if plot_image:
         fig, ax1 = plt.subplots()
+        
     ROIs = []
     for region in regionprops(mask_labeled):
         if region.area >= ignoring_pixel:
             min_height, min_width, max_height, max_width = region.bbox
+            height = max_height - min_height
+            width = max_width - min_width
+            
+            min_height = int(min_height-pad_ratio*height)
+            min_width = int(min_width-pad_ratio*width)      
+            max_height = int(max_height+pad_ratio*height)        
+            max_width = int(max_width+pad_ratio*width)  
+            
             rect = mpatches.Rectangle((min_width, min_height), max_width - min_width, max_height - min_height,
                                       fill=False, edgecolor='red', linewidth=1)
             ROIs.append((min_height, min_width, max_height, max_width))
@@ -464,21 +480,13 @@ def label_getROIs(mask, ignoring_pixel=200, plot_image=False):
                 ax1.add_patch(rect)
     return ROIs
 
-def label_binarySeg_secondLabel_FPFN(seg_gt, seg_pred, ignore_pxl_threshold=50, iou_threshold=0.3):
+def binarySeg_secondLabel_FPFN(seg_gt, seg_pred, ignore_pxl_threshold, iou_threshold):
     """
-    inputs : 
-    seg_gt : should be binarized 2D numpy array [0,1]
-    seg_pred : should be binarized 2D numpy array [0,1]
-    
-    returns:
-    2D numpy array with 3 values
-    1 : TP
-    2 : FP
-    3 : FN
+    seg_gt, seg_pred should be 2D numpy array
     """
     
     seg_total = seg_gt.copy() + seg_pred.copy()
-    seg_total[seg_total!=0.] = 1.
+#     seg_total[seg_total!=0.] = 1.
     
     #cluster
     seg_gt_ROIs = label_getROIs(seg_gt, ignoring_pixel=ignore_pxl_threshold, plot_image=False)    
@@ -497,16 +505,23 @@ def label_binarySeg_secondLabel_FPFN(seg_gt, seg_pred, ignore_pxl_threshold=50, 
         iou_ = score_dice(seg_gt[y_min:y_max,x_min:x_max], seg_total[y_min:y_max,x_min:x_max])
         iou__ = score_dice(seg_pred[y_min:y_max,x_min:x_max], seg_total[y_min:y_max,x_min:x_max])
         
+        print(ROI,np.unique(seg_total[y_min:y_max,x_min:x_max],return_counts=True),np.unique(seg_gt[y_min:y_max,x_min:x_max],return_counts=True),np.unique(seg_pred[y_min:y_max,x_min:x_max],return_counts=True),)
+        
         if iou > iou_threshold:
+            print('TP, label as 1')
             TPs.append(ROI)
-        elif iou_ >iou_threshold :
+        elif iou_ > iou_threshold :
+            print('FN, label as 1')
             FNs.append(ROI)
-        elif iou__ >iou_threshold:
+        elif iou__ > iou_threshold:
+            print('FP, label as 1')
             FPs.append(ROI)                
         
     TPs = list(dict.fromkeys(TPs))                
     FPs = list(dict.fromkeys(FPs))                
     FNs = list(dict.fromkeys(FNs))
+        
+    print('TP',TPs,'FP',FPs,'FN',FNs)
     
     for idx in range(len(FPs)):
         y_min,x_min,y_max,x_max= FPs[idx]
