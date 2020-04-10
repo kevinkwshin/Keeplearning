@@ -7,6 +7,7 @@ from skimage import measure
 from skimage.measure import label, regionprops
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
+from Keeplearning.metric import *
 
 def z_normalization(img, num_channels):
     """
