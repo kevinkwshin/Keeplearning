@@ -464,9 +464,17 @@ def label_getROIs(mask, ignoring_pixel=200, plot_image=False):
                 ax1.add_patch(rect)
     return ROIs
 
-def label_binarySeg_secondLabel_FPFN(seg_gt, seg_pred, ignore_pxl_threshold, iou_threshold):
+def label_binarySeg_secondLabel_FPFN(seg_gt, seg_pred, ignore_pxl_threshold=50, iou_threshold=0.3):
     """
-    seg_gt, seg_pred should be 2D numpy array
+    inputs : 
+    seg_gt : should be binarized 2D numpy array [0,1]
+    seg_pred : should be binarized 2D numpy array [0,1]
+    
+    returns:
+    2D numpy array with 3 values
+    1 : TP
+    2 : FP
+    3 : FN
     """
     
     seg_total = seg_gt.copy() + seg_pred.copy()
@@ -489,23 +497,16 @@ def label_binarySeg_secondLabel_FPFN(seg_gt, seg_pred, ignore_pxl_threshold, iou
         iou_ = score_dice(seg_gt[y_min:y_max,x_min:x_max], seg_total[y_min:y_max,x_min:x_max])
         iou__ = score_dice(seg_pred[y_min:y_max,x_min:x_max], seg_total[y_min:y_max,x_min:x_max])
         
-        print(ROI,np.unique(seg_total[y_min:y_max,x_min:x_max],return_counts=True),np.unique(seg_gt[y_min:y_max,x_min:x_max],return_counts=True),np.unique(seg_pred[y_min:y_max,x_min:x_max],return_counts=True),)
-        
         if iou > iou_threshold:
-            print('TP, label as 1')
             TPs.append(ROI)
-        elif iou_ >0.5 :
-            print('FN, label as 1')
+        elif iou_ >iou_threshold :
             FNs.append(ROI)
-        elif iou__ >0.5:
-            print('FP, label as 1')
+        elif iou__ >iou_threshold:
             FPs.append(ROI)                
         
     TPs = list(dict.fromkeys(TPs))                
     FPs = list(dict.fromkeys(FPs))                
     FNs = list(dict.fromkeys(FNs))
-        
-    print('TP',TPs,'FP',FPs,'FN',FNs)
     
     for idx in range(len(FPs)):
         y_min,x_min,y_max,x_max= FPs[idx]
