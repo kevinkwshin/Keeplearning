@@ -473,7 +473,7 @@ def label_binarySeg_secondLabel_FPFN(seg_gt, seg_pred, ignore_pxl_threshold, iou
     seg_total[seg_total!=0.] = 1.
     
     #cluster
-    seg_gt_ROIs = label_getROIs(seg_gt, ignoring_pixel=ignore_pxl_threshold, plot_image=True)    
+    seg_gt_ROIs = label_getROIs(seg_gt, ignoring_pixel=ignore_pxl_threshold, plot_image=False)    
     seg_preds_ROIs = label_getROIs(seg_pred,ignoring_pixel=ignore_pxl_threshold)
     seg_total_ROIs = label_getROIs(seg_total,ignoring_pixel=ignore_pxl_threshold)
     
