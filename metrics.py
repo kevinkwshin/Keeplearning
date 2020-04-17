@@ -23,20 +23,6 @@ def score_numeric(groundtruth,prediction):
     TN = np.float(np.sum((prediction == 0) & (groundtruth == 0)))
     return FP, FN, TP, TN
 
-# def score_dice(groundtruth,prediction):
-#     '''
-#     Dice Similarity Coefficient (=F1 Score)
-
-#     Reference
-#     https://en.wikipedia.org/wiki/Receiver_operating_characteristic
-#     '''
-#     pflat = prediction.flatten()
-#     gflat = groundtruth.flatten()
-#     d = (1 - spatial.distance.dice(pflat, gflat)) * 100.0
-#     if np.isnan(d):
-#         return 0.0
-#     return d
-
 def score_jaccard(groundtruth,prediction):
     '''
     Reference
@@ -194,3 +180,4 @@ def score_iouBox(a, b, epsilon=1e-5):
     # RATIO OF AREA OF OVERLAP OVER COMBINED AREA
     iou = area_overlap / (area_combined+epsilon)
     return iou
+
