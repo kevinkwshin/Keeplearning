@@ -18,3 +18,23 @@ def preprocess_withLabel_3chNPY(x_list, y_list, pathToSave):
                 slice_3_label = np.moveaxis(slice_3_label,0,-1)                 
                 np.save(pathToSave + x_list[i].split('/')[-1].split('.')[0] + "_" + str(idx) + '_label_3ch.npy', slice_3_label)
                 
+def label_TPFPFN(pred,gt):
+    """
+    input 2d binary array torch
+    TP : 1
+    FN : 2
+    FP : 3
+    """
+    
+    pred_ = pred.clone()
+    gt_   = gt.clone()
+    gt_[gt_!=0] = 5
+    pred_[pred_!=0] = 4
+    result = pred_ + gt_    
+       
+    result[result==9] = 1    
+    result[result==4] = 2    
+    result[result==5] = 3  
+    
+    result[result==3]=0
+    return result
