@@ -29,22 +29,18 @@ def plot_visualize(**images):
 
 def plot_confusion_matrix(y_true, y_pred,
                           classes,
-                          reverse=False,
                           print_metric=False,
-                          title='Confusion matrix', cmap=plt.cm.Greens):
+                          title='Confusion matrix', cmap=plt.cm.Blues):
     """
     This function prints and plots the confusion matrix.
     Normalization can be applied by setting `normalize=True`.
     """
-    font = {'weight' : 'normal','size' : 22}
+    
+    font = {'weight' : 'normal','size' : 16}
 
     matplotlib.rc('font', **font)
     cm = confusion_matrix(y_true, y_pred)
 
-    if reverse == True:
-        cm = cm[::-1,::-1]
-
-    # to show the matrix in intuitive way
     cm = np.transpose(cm)
     cm = np.flipud(cm)
     cm_origin = cm.copy()
@@ -53,7 +49,7 @@ def plot_confusion_matrix(y_true, y_pred,
     plt.rcParams['xtick.bottom'] = plt.rcParams['xtick.labelbottom'] = False
     plt.rcParams['xtick.top'] = plt.rcParams['xtick.labeltop'] = True
 
-    fig, ax = plt.subplots(1,1,figsize=(9,8))
+    fig, ax = plt.subplots(1,1,figsize=(7,7))
     im = ax.imshow(cm, interpolation='nearest', cmap=cmap)
     ax.figure.colorbar(im, ax=ax, fraction=0.046, pad=0.04)
     im.set_clim(0,1)
@@ -80,14 +76,11 @@ def plot_confusion_matrix(y_true, y_pred,
 
     if print_metric==True:
         auc = roc_auc_score(y_true, y_pred)
-        # accuracy
         acc = accuracy_score(y_true, y_pred)
-        #sensitivity
         sensitivity = cm_origin[0,0]/(cm_origin[0,0]+cm_origin[1,0])
-        #specificity
         specificity = cm_origin[1,1]/(cm_origin[0,1]+cm_origin[1,1])
 
-        plt.text(0.15,-.85,'Accuracy : '+str(acc)[:4]+'\nSensitivity : '+str(sensitivity)[:4]+'\nSpecificity : '+str(specificity)[:4])
+        plt.text(0.15,-.95,'Accuracy : '+str(acc)[:4]+'\nSensitivity : '+str(sensitivity)[:4]+'\nSpecificity : '+str(specificity)[:4]+'\nAUC : '+str(auc)[:4])
 
     return cm_origin
 
