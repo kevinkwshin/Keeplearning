@@ -92,6 +92,14 @@ def plot_confusion_matrix(y_true, y_pred,
     return cm_origin
 
 def plot_auc_roc(label,pred):
+    """
+    Example
+    y_true = np.random.randint(0,2,(100,1))
+    y_pred = np.random.rand(100,1)
+    print(y_true.shape,y_pred.shape)
+
+    plot_auc_roc(y_true,y_pred)
+    """
     ground_truth_labels =label.ravel()
     score_value = pred.ravel()
     fpr, tpr, _ = roc_curve(ground_truth_labels,score_value)
