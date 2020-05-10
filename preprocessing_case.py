@@ -73,3 +73,54 @@ def label_remove_altifacts(image, display=False):
         plt.axis('off')
     
     return mask
+
+# CLAHE
+# import mclahe as mc
+# from skimage import morphology
+
+# def remove_altifacts(image, display=False):
+    
+#     image = image_windowing_CT(image, 40, 80)    
+#     segmentation = morphology.dilation(image, np.ones((7, 7, 7)))
+#     labels, label_nb = ndimage.label(segmentation)    
+#     label_count = np.bincount(labels.ravel().astype(np.int))
+    
+#     label_count[0] = 0    
+#     mask = labels == label_count.argmax()
+#     mask = morphology.dilation(mask, np.ones((7, 7, 7)))
+#     mask = ndimage.morphology.binary_fill_holes(mask)
+#     mask = morphology.dilation(mask, np.ones((3, 3, 3)))
+    
+#     masked_image = mask * image
+
+#     if display:
+#         plt.figure(figsize=(15, 2.5))
+#         plt.subplot(141)
+#         plt.imshow(image)#,cmap='gray')
+#         plt.title('Original Image')
+#         plt.axis('off')
+        
+#         plt.subplot(142)
+#         plt.imshow(mask)#,cmap='gray')
+#         plt.title('Mask')
+#         plt.axis('off')
+
+#         plt.subplot(143)
+#         plt.imshow(masked_image)#,cmap='gray')
+#         plt.title('Final Image')
+#         plt.axis('off')
+    
+#     return mask
+
+# path_test = '/workspace/Brain_Hemo/Brain_Hemorrhage_testset/'
+# lists= list_sort_nicely(glob.glob(path_test+'/image/*'))
+# for idx in range(len(lists)):
+#     print(idx)
+#     img,origin,spacing = data_load_nii(lists[idx],return_info=True)
+#     img_mask = remove_altifacts(img)
+#     img = image_windowing_CT(img,40,80)
+#     img = img * img_mask
+
+#     img = mc.mclahe(img,kernel_size=None, clip_limit=0.01, n_bins=128, use_gpu=True) 
+#     data_save_itk(img,origin,spacing,path_test+'image_clahe/'+lists[idx].split('/')[-1])
+# print('done')
