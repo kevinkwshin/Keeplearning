@@ -1,4 +1,4 @@
-import SimpleITK as sitk
+import SimpleITK as sitk 
 import matplotlib.pyplot as plt
 import ipywidgets as widgets
 from IPython.display import display
